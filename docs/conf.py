@@ -93,14 +93,14 @@ html_theme_options = {
     "use_source_button": True,
 }
 intersphinx_mapping = {
-    "ampform": ("https://ampform.readthedocs.io/stable", None),
-    "IPython": ("https://ipython.readthedocs.io/en/stable", None),
-    "ipywidgets": ("https://ipywidgets.readthedocs.io/en/stable", None),
-    "matplotlib": ("https://matplotlib.org", None),
+    "ampform": ("https://ampform.readthedocs.io/0.15.8", None),
+    "IPython": ("https://ipython.readthedocs.io/en/9.0.2", None),
+    "ipywidgets": ("https://ipywidgets.readthedocs.io/en/8.1.5", None),
+    "matplotlib": ("https://matplotlib.org/3.10.0", None),
     "numba": ("https://numba.readthedocs.io/en/0.60.0", None),
     "numpy": ("https://numpy.org/doc/1.26", None),
     "plotly": ("https://plotly.com/python-api-reference/", None),
-    "python": ("https://docs.python.org/3", None),
+    "python": ("https://docs.python.org/3.12", None),
     "sympy": ("https://docs.sympy.org/latest", None),
 }
 myst_enable_extensions = [
