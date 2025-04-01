@@ -13,7 +13,7 @@ def copy_julia_html_page() -> list[str]:
 
 BRANCH = "main"
 ORGANIZATION = "RUB-EP1"
-REPO_NAME = "international-k-matrix-day"
+REPO_NAME = "kmatrix-day-2024"
 copy_julia_html_page()
 
 codeautolink_concat_default = True
@@ -32,7 +32,7 @@ html_favicon = "_static/favicon.ico"
 html_js_files = [
     "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js",
 ]
-html_logo = "https://github.com/mmikhasenko/international-k-matrix-day/assets/29308176/1a9db3dc-9398-4c7f-95f2-e46e68809a4d"
+html_logo = "https://github.com/mmikhasenko/kmatrix-day-2024/assets/29308176/1a9db3dc-9398-4c7f-95f2-e46e68809a4d"
 html_static_path = ["_static"]
 html_theme = "sphinx_book_theme"
 html_theme_options = {
