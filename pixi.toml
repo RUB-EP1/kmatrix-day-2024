@@ -54,7 +54,7 @@ cmd = """
 julia --project=.. -e 'using PlutoSliderServer; PlutoSliderServer.export_notebook("K-matrix.jl")'
 """
 cwd = "docs"
-depends_on = [
+depends-on = [
     "install-julia",
 ]
 
@@ -78,6 +78,6 @@ taplo format
 cmd = """
 julia --project -e 'using Pluto; Pluto.run(notebook="docs/K-matrix.jl")'
 """
-depends_on = [
+depends-on = [
     "install-julia",
 ]
