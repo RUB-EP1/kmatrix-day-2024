@@ -39,7 +39,7 @@ analyticity-2channel
 To run the materials in this repository locally, clone the repository using:
 
 ```shell
-git clone https://github.com/rub-ep1/kmatrix-day-2024
+git clone https://github.com/RUB-EP1/kmatrix-day-2024
 ```
 
 This course utilizes [Pluto notebooks](https://plutojl.org/), which requires [Julia](https://julialang.org/), and [Jupyter notebooks](https://jupyter.org), which requires [Python](https://www.python.org/downloads). You can install and run Pluto and Jupyter yourself, but you can also use the provided [Pixi](https://pixi.sh) environment.
