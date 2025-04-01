@@ -97,7 +97,7 @@ intersphinx_mapping = {
     "IPython": ("https://ipython.readthedocs.io/en/stable", None),
     "ipywidgets": ("https://ipywidgets.readthedocs.io/en/stable", None),
     "matplotlib": ("https://matplotlib.org", None),
-    "numba": ("https://numba.pydata.org/numba-doc/latest", None),
+    "numba": ("https://numba.readthedocs.io/en/0.60.0", None),
     "numpy": ("https://numpy.org/doc/1.26", None),
     "plotly": ("https://plotly.com/python-api-reference/", None),
     "python": ("https://docs.python.org/3", None),
