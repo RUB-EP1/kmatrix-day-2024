@@ -13,7 +13,7 @@ def copy_julia_html_page() -> list[str]:
 
 BRANCH = "main"
 ORGANIZATION = "RUB-EP1"
-REPO_NAME = "international-k-matrix-day"
+REPO_NAME = "kmatrix-day-2024"
 copy_julia_html_page()
 
 codeautolink_concat_default = True
@@ -32,7 +32,7 @@ html_favicon = "_static/favicon.ico"
 html_js_files = [
     "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js",
 ]
-html_logo = "https://github.com/mmikhasenko/international-k-matrix-day/assets/29308176/1a9db3dc-9398-4c7f-95f2-e46e68809a4d"
+html_logo = "https://github.com/mmikhasenko/kmatrix-day-2024/assets/29308176/1a9db3dc-9398-4c7f-95f2-e46e68809a4d"
 html_static_path = ["_static"]
 html_theme = "sphinx_book_theme"
 html_theme_options = {
@@ -81,7 +81,7 @@ html_theme_options = {
         "colab_url": "https://colab.research.google.com",
         "notebook_interface": "jupyterlab",
     },
-    "logo": {"text": "International K-matrix day"},
+    "logo": {"text": "International K-matrix day 2024"},
     "path_to_docs": "docs",
     "repository_branch": BRANCH,
     "repository_url": f"https://github.com/{ORGANIZATION}/{REPO_NAME}",
@@ -93,14 +93,14 @@ html_theme_options = {
     "use_source_button": True,
 }
 intersphinx_mapping = {
-    "ampform": ("https://ampform.readthedocs.io/stable", None),
-    "IPython": ("https://ipython.readthedocs.io/en/stable", None),
-    "ipywidgets": ("https://ipywidgets.readthedocs.io/en/stable", None),
-    "matplotlib": ("https://matplotlib.org", None),
-    "numba": ("https://numba.pydata.org/numba-doc/latest", None),
+    "ampform": ("https://ampform.readthedocs.io/0.15.8", None),
+    "IPython": ("https://ipython.readthedocs.io/en/9.0.2", None),
+    "ipywidgets": ("https://ipywidgets.readthedocs.io/en/8.1.5", None),
+    "matplotlib": ("https://matplotlib.org/3.10.0", None),
+    "numba": ("https://numba.readthedocs.io/en/0.60.0", None),
     "numpy": ("https://numpy.org/doc/1.26", None),
     "plotly": ("https://plotly.com/python-api-reference/", None),
-    "python": ("https://docs.python.org/3", None),
+    "python": ("https://docs.python.org/3.12", None),
     "sympy": ("https://docs.sympy.org/latest", None),
 }
 myst_enable_extensions = [
@@ -115,7 +115,7 @@ nb_execution_mode = "cache"
 nb_execution_show_tb = True
 nb_execution_timeout = -1
 nb_output_stderr = "remove"
-project = "International K-matrix day"
+project = "International K-matrix day 2024"
 suppress_warnings = [
     "mystnb.unknown_mime_type",
 ]
