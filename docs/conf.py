@@ -81,7 +81,7 @@ html_theme_options = {
         "colab_url": "https://colab.research.google.com",
         "notebook_interface": "jupyterlab",
     },
-    "logo": {"text": "International K-matrix day"},
+    "logo": {"text": "International K-matrix day 2024"},
     "path_to_docs": "docs",
     "repository_branch": BRANCH,
     "repository_url": f"https://github.com/{ORGANIZATION}/{REPO_NAME}",
@@ -115,7 +115,7 @@ nb_execution_mode = "cache"
 nb_execution_show_tb = True
 nb_execution_timeout = -1
 nb_output_stderr = "remove"
-project = "International K-matrix day"
+project = "International K-matrix day 2024"
 suppress_warnings = [
     "mystnb.unknown_mime_type",
 ]
