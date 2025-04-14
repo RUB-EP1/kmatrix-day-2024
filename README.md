@@ -4,6 +4,9 @@
 
 ## Overview
 
+> [!TIP]
+> See also [International K-Matrix Day 2025](https://rub-ep1.github.io/kmatrix-day-2025)!
+
 This repository contains educational materials focused on the application of the $K$-matrix formalism in the field of hadron physics. The materials are designed to bridge theoretical concepts with practical examples, facilitating a deeper understanding of scattering amplitude observables and resonance phenomena.
 
 ## Contents

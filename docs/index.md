@@ -12,6 +12,10 @@ myst:
 
 This repository contains educational materials focused on the application of the $K$-matrix formalism in the field of hadron physics. The materials are designed to bridge theoretical concepts with practical examples, facilitating a deeper understanding of scattering amplitude observables and resonance phenomena.
 
+:::{tip}
+See also [International K-Matrix Day 2025](https://rub-ep1.github.io/kmatrix-day-2025)!
+:::
+
 ## Contents
 
 The core of this repository are the following interactive notebooks:
@@ -22,9 +26,7 @@ The core of this repository are the following interactive notebooks:
 
 Supplementary materials, including lecture notes and presentations, can be found here:
 
-1.
-2. **Second talk**: {download}`Analytic continuation within K-matrix formalism <../additional_materials/Analytic_continuation_ComPWA.pdf>` (Lena Zeynep Pöpping)
-3.
+-  **Second talk**: {download}`Analytic continuation within K-matrix formalism <../additional_materials/Analytic_continuation_ComPWA.pdf>` (Lena Zeynep Pöpping)
 
 :::{toctree}
 :hidden:
@@ -32,6 +34,11 @@ Supplementary materials, including lecture notes and presentations, can be found
 K matrix with Julia <https://rub-ep1.github.io/kmatrix-day-2024/_static/K-matrix.html>
 analyticity-1channel
 analyticity-2channel
+:::
+
+:::{toctree}
+:hidden:
+International K-Matrix Day 2025 <https://rub-ep1.github.io/kmatrix-day-2025>
 :::
 
 ## Installation Instructions
