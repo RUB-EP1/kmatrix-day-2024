@@ -1,4 +1,4 @@
-[project]
+[workspace]
 authors = ["Misha Mikhasenko <mikhail.mikhasenko@gmail.com>"]
 channels = ["conda-forge"]
 description = "Educational materials for the K-matrix formalism in the field of hadron physics"
