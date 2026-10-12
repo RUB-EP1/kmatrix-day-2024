@@ -27,6 +27,7 @@ The core of this repository are the following interactive notebooks:
 Supplementary materials, including lecture notes and presentations, can be found here:
 
 -  **Second talk**: {download}`Analytic continuation within K-matrix formalism <../additional_materials/Analytic_continuation_ComPWA.pdf>` (Lena Zeynep Pöpping)
+-  [$K$-matrix parametrizations for $\pi\pi$ scattering](./_static/pipiS-Kmatrix.html)
 
 :::{toctree}
 :hidden:
@@ -39,6 +40,13 @@ analyticity-2channel
 :::{toctree}
 :hidden:
 International K-Matrix Day 2025 <https://rub-ep1.github.io/kmatrix-day-2025>
+:::
+
+:::{toctree}
+:caption: Bonus material
+:hidden:
+:maxdepth: 1
+ππ S-wave parametrization <https://rub-ep1.github.io/kmatrix-day-2024/_static/pipiS-Kmatrix.html>
 :::
 
 ## Installation Instructions
