@@ -12,6 +12,10 @@ myst:
 
 This repository contains educational materials focused on the application of the $K$-matrix formalism in the field of hadron physics. The materials are designed to bridge theoretical concepts with practical examples, facilitating a deeper understanding of scattering amplitude observables and resonance phenomena.
 
+:::{tip}
+See also [International K-Matrix Day 2025](https://rub-ep1.github.io/kmatrix-day-2025)!
+:::
+
 ## Contents
 
 The core of this repository are the following interactive notebooks:
@@ -22,24 +26,27 @@ The core of this repository are the following interactive notebooks:
 
 Supplementary materials, including lecture notes and presentations, can be found here:
 
-1.
-2. **Second talk**: {download}`Analytic continuation within K-matrix formalism <../additional_materials/Analytic_continuation_ComPWA.pdf>` (Lena Zeynep Pöpping)
-3.
-4. [$K$-matrix parametrizations for $\pi\pi$ scattering](./_static/pipiS-Kmatrix.html)
+-  **Second talk**: {download}`Analytic continuation within K-matrix formalism <../additional_materials/Analytic_continuation_ComPWA.pdf>` (Lena Zeynep Pöpping)
+-  [$K$-matrix parametrizations for $\pi\pi$ scattering](./_static/pipiS-Kmatrix.html)
 
 :::{toctree}
 :hidden:
 :maxdepth: 1
-K matrix with Julia <https://rub-ep1.github.io/international-k-matrix-day/_static/K-matrix.html>
+K matrix with Julia <https://rub-ep1.github.io/kmatrix-day-2024/_static/K-matrix.html>
 analyticity-1channel
 analyticity-2channel
+:::
+
+:::{toctree}
+:hidden:
+International K-Matrix Day 2025 <https://rub-ep1.github.io/kmatrix-day-2025>
 :::
 
 :::{toctree}
 :caption: Bonus material
 :hidden:
 :maxdepth: 1
-ππ S-wave parametrization <https://rub-ep1.github.io/international-k-matrix-day/_static/pipiS-Kmatrix.html>
+ππ S-wave parametrization <https://rub-ep1.github.io/kmatrix-day-2024/_static/pipiS-Kmatrix.html>
 :::
 
 ## Installation Instructions
@@ -47,7 +54,7 @@ analyticity-2channel
 To run the materials in this repository locally, clone the repository using:
 
 ```shell
-git clone https://github.com/rub-ep1/international-k-matrix-day
+git clone https://github.com/RUB-EP1/kmatrix-day-2024
 ```
 
 This course utilizes [Pluto notebooks](https://plutojl.org/), which requires [Julia](https://julialang.org/), and [Jupyter notebooks](https://jupyter.org), which requires [Python](https://www.python.org/downloads). You can install and run Pluto and Jupyter yourself, but you can also use the provided [Pixi](https://pixi.sh) environment.
