@@ -14,5 +14,9 @@
     "tamasfe.even-better-toml",
     "yzhang.markdown-all-in-one"
   ],
-  "unwantedRecommendations": ["juliacomputing.pluto-vscode"]
+  "unwantedRecommendations": [
+    "juliacomputing.pluto-vscode",
+    "ms-python.vscode-pylance",
+    "ms-toolsai.vscode-jupyter-slideshow"
+  ]
 }
