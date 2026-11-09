@@ -1,11 +1,18 @@
 {
   "recommendations": [
     "eamodio.gitlens",
-    "juliacomputing.pluto-vscode",
+    "editorconfig.editorconfig",
+    "esbenp.prettier-vscode",
+    "github.vscode-github-actions",
     "julialang.language-julia",
+    "juliapluto-pankgeorg.advanced-vscode-extension",
+    "ms-python.python",
+    "ms-toolsai.jupyter",
     "ms-vscode.live-server",
+    "redhat.vscode-yaml",
+    "soulcode.vscode-unwanted-extensions",
     "tamasfe.even-better-toml",
-    "yzhang.markdown-all-in-one",
-    "github.vscode-github-actions"
-  ]
+    "yzhang.markdown-all-in-one"
+  ],
+  "unwantedRecommendations": ["juliacomputing.pluto-vscode"]
 }

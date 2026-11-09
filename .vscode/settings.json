@@ -1,9 +1,16 @@
 {
-  "[json]": {
+  "[css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.wordWrap": "on"
   },
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[julia]": {
+    "editor.defaultFormatter": "julialang.language-julia"
   },
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -13,7 +20,19 @@
   },
   "editor.formatOnSave": true,
   "extensions.ignoreRecommendations": true,
+  "files.associations": {
+    "**/pixi.lock": "yaml"
+  },
+  "gitlens.telemetry.enabled": false,
+  "julia.NumThreads": "auto",
   "julia.executablePath": "${workspaceFolder}/.pixi/envs/default/bin/julia",
   "julia.juliaup.install.hint": false,
-  "livePreview.defaultPreviewPath": "docs/_build/html"
+  "livePreview.defaultPreviewPath": "docs/_build/html",
+  "python.defaultInterpreterPath": ".pixi/envs/default/bin/python",
+  "python.terminal.activateEnvironment": false,
+  "redhat.telemetry.enabled": false,
+  "search.exclude": {
+    "**/pixi.lock": true
+  },
+  "telemetry.telemetryLevel": "off"
 }
