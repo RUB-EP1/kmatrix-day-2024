@@ -103,7 +103,9 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3.12", None),
     "sympy": ("https://docs.sympy.org/latest", None),
 }
+myst_colon_fence_exact_match = True
 myst_enable_extensions = [
+    "alert",
     "amsmath",
     "colon_fence",
     "dollarmath",

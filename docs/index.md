@@ -12,9 +12,8 @@ myst:
 
 This repository contains educational materials focused on the application of the $K$-matrix formalism in the field of hadron physics. The materials are designed to bridge theoretical concepts with practical examples, facilitating a deeper understanding of scattering amplitude observables and resonance phenomena.
 
-:::{tip}
-See also [International K-Matrix Day 2025](https://rub-ep1.github.io/kmatrix-day-2025)!
-:::
+> [!TIP]
+> See also [International K-Matrix Day 2025](https://rub-ep1.github.io/kmatrix-day-2025)!
 
 ## Contents
 
@@ -87,6 +86,5 @@ This course utilizes [Pluto notebooks](https://plutojl.org/), which requires [Ju
    pixi run pluto
    ```
 
-   :::{warning}
-   The first time you run `pixi run pluto`, it can take a few minutes before all Julia packages are downloaded and installed.
-   :::
+   > [!WARNING]
+   > The first time you run `pixi run pluto`, it can take a few minutes before all Julia packages are downloaded and installed.
