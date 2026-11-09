@@ -1,22 +1,12 @@
 {
-  "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.wordWrap": "on"
-  },
-  "[jsonc]": {
+  "[css][json][jsonc][markdown][yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[julia]": {
     "editor.defaultFormatter": "julialang.language-julia"
   },
-  "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[yaml]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "[toml]": {
+    "editor.defaultFormatter": "tombi-toml.tombi"
   },
   "editor.formatOnSave": true,
   "extensions.ignoreRecommendations": true,
