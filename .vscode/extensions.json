@@ -1,8 +1,10 @@
 {
   "recommendations": [
+    "charliermarsh.ruff",
     "eamodio.gitlens",
     "editorconfig.editorconfig",
     "esbenp.prettier-vscode",
+    "executablebookproject.myst-highlight",
     "github.vscode-github-actions",
     "github.vscode-pull-request-github",
     "julialang.language-julia",
@@ -10,16 +12,28 @@
     "mhutchie.git-graph",
     "ms-python.python",
     "ms-toolsai.jupyter",
+    "ms-toolsai.vscode-jupyter-cell-tags",
     "ms-vscode.live-server",
     "redhat.vscode-yaml",
     "soulcode.vscode-unwanted-extensions",
+    "streetsidesoftware.code-spell-checker",
     "tombi-toml.tombi",
     "yzhang.markdown-all-in-one"
   ],
   "unwantedRecommendations": [
+    "astral-sh.ty",
+    "davidanson.vscode-markdownlint",
+    "garaioag.garaio-vscode-unwanted-recommendations",
     "juliacomputing.pluto-vscode",
+    "ms-python.black-formatter",
+    "ms-python.flake8",
+    "ms-python.isort",
+    "ms-python.mypy-type-checker",
+    "ms-python.pylint",
     "ms-python.vscode-pylance",
     "ms-toolsai.vscode-jupyter-slideshow",
-    "tamasfe.even-better-toml"
+    "tamasfe.even-better-toml",
+    "travisillig.vscode-json-stable-stringify",
+    "tyriar.sort-lines"
   ]
 }

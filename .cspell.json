@@ -37,12 +37,12 @@
     ".prettierignore",
     ".prettierrc.yaml",
     ".vscode/",
+    "docs/K-matrix.jl",
     "LICENSE",
     "Manifest.toml",
-    "Project.toml",
-    "docs/K-matrix.jl",
     "pixi.lock",
     "pixi.toml",
+    "Project.toml",
     "pyproject.toml"
   ],
   "ignoreWords": [
@@ -95,7 +95,7 @@
     "mystnb",
     "Pixi",
     "prek",
-    "P\u00f6pping",
+    "Pöpping",
     "Remco",
     "Tombi",
     "unphysical",

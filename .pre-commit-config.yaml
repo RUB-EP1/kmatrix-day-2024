@@ -5,12 +5,18 @@ ci:
   skip:
     - tombi-format
     - tombi-lint
+    - uv-lock
 
 repos:
   - repo: meta
     hooks:
       - id: check-hooks-apply
       - id: check-useless-excludes
+
+  - repo: https://github.com/ComPWA/policy
+    rev: 0.10.3
+    hooks:
+      - id: check-dev-files
 
   - repo: https://github.com/kynan/nbstripout
     rev: 0.9.1
@@ -73,7 +79,7 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/tombi-toml/tombi-pre-commit
-    rev: v1.10.0
+    rev: v1.11.1
     hooks:
       - id: tombi-format
       - id: tombi-lint
@@ -89,9 +95,23 @@ repos:
     hooks:
       - id: cspell
 
+  - repo: https://github.com/LilSpazJoekp/docstrfmt
+    rev: v2.2.1
+    hooks:
+      - id: docstrfmt
+
   - repo: https://github.com/editorconfig-checker/editorconfig-checker.python
     rev: 3.11.1
     hooks:
       - id: editorconfig-checker
         name: editorconfig
         alias: ec
+        exclude: >-
+          (?x)^(
+            .*\.py
+          )$
+
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.13.7
+    hooks:
+      - id: uv-lock

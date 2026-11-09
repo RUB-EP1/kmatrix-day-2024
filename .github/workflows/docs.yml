@@ -42,9 +42,9 @@ jobs:
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           key: |
-            jupyter-cache-${{hashFiles('pixi.lock')}}-${{hashFiles('docs/*.ipynb')}}
+            jupyter-cache-${{hashFiles('pixi.lock', 'uv.lock')}}-${{hashFiles('docs/*.ipynb')}}
           restore-keys: |
-            jupyter-cache-${{hashFiles('pixi.lock')}}
+            jupyter-cache-${{hashFiles('pixi.lock', 'uv.lock')}}
             jupyter-cache
           path: |
             docs/_build/.jupyter_cache

@@ -50,22 +50,22 @@ To run the materials in this repository locally, clone the repository using:
 git clone https://github.com/RUB-EP1/kmatrix-day-2024
 ```
 
-This course utilizes [Pluto notebooks](https://plutojl.org/), which requires [Julia](https://julialang.org/), and [Jupyter notebooks](https://jupyter.org), which requires [Python](https://www.python.org/downloads). You can install and run Pluto and Jupyter yourself, but you can also use the provided [Pixi](https://pixi.sh) environment.
+This course utilizes [Pluto notebooks](https://plutojl.org/), which requires [Julia](https://julialang.org/), and [Jupyter notebooks](https://jupyter.org), which requires [Python](https://www.python.org/downloads). You can install and run Pluto and Jupyter yourself, but you can also use the provided [Pixi](https://pixi.prefix.dev/latest/) environment.
 
-1. [Install Pixi](https://pixi.sh/latest/#installation):
+1. [Install Pixi](https://pixi.prefix.dev/latest/installation/):
 
    ::::{tab-set}
    :::{tab-item} Linux / macOS
 
    ```shell
-   curl -fsSL https://pixi.sh/install.sh | bash
+   curl -fsSL https://pixi.prefix.dev/install.sh | bash
    ```
 
    :::
    :::{tab-item} Powershell
 
    ```shell
-   iwr -useb https://pixi.sh/install.ps1 | iex
+   iwr -useb https://pixi.prefix.dev/install.ps1 | iex
    ```
 
    :::

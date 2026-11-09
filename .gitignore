@@ -1,5 +1,8 @@
 _build/
 .ipynb_checkpoints/
+.lycheecache
 .pixi/
+.venv/
 .virtual_documents/
+*.egg-info/
 *.html

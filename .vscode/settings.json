@@ -2,12 +2,26 @@
   "[css][json][jsonc][markdown][yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[git-commit]": {
+    "editor.rulers": [72],
+    "rewrap.wrappingColumn": 72
+  },
+  "[json]": {
+    "editor.wordWrap": "on"
+  },
   "[julia]": {
     "editor.defaultFormatter": "julialang.language-julia"
+  },
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    },
+    "editor.defaultFormatter": "charliermarsh.ruff"
   },
   "[toml]": {
     "editor.defaultFormatter": "tombi-toml.tombi"
   },
+  "diffEditor.experimental.showMoves": true,
   "editor.formatOnSave": true,
   "extensions.ignoreRecommendations": true,
   "files.associations": {
@@ -16,11 +30,19 @@
   "gitlens.telemetry.enabled": false,
   "julia.NumThreads": "auto",
   "julia.executablePath": "${workspaceFolder}/.pixi/envs/default/bin/julia",
-  "julia.juliaup.install.hint": false,
   "livePreview.defaultPreviewPath": "docs/_build/html",
-  "python.defaultInterpreterPath": ".pixi/envs/default/bin/python",
+  "notebook.codeActionsOnSave": {
+    "notebook.source.organizeImports": "explicit"
+  },
+  "notebook.formatOnSave.enabled": true,
+  "notebook.gotoSymbols.showAllSymbols": true,
+  "python.defaultInterpreterPath": ".venv/bin/python",
   "python.terminal.activateEnvironment": false,
   "redhat.telemetry.enabled": false,
+  "rewrap.wrappingColumn": 88,
+  "ruff.enable": true,
+  "ruff.importStrategy": "fromEnvironment",
+  "ruff.organizeImports": true,
   "search.exclude": {
     "**/pixi.lock": true
   },
