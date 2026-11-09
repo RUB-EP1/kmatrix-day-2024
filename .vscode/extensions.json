@@ -13,12 +13,13 @@
     "ms-vscode.live-server",
     "redhat.vscode-yaml",
     "soulcode.vscode-unwanted-extensions",
-    "tamasfe.even-better-toml",
+    "tombi-toml.tombi",
     "yzhang.markdown-all-in-one"
   ],
   "unwantedRecommendations": [
     "juliacomputing.pluto-vscode",
     "ms-python.vscode-pylance",
-    "ms-toolsai.vscode-jupyter-slideshow"
+    "ms-toolsai.vscode-jupyter-slideshow",
+    "tamasfe.even-better-toml"
   ]
 }

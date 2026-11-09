@@ -94,7 +94,7 @@ $K = \frac{1}{m_0^2-s}
 g_1^2 & g_1 g_2 & g_1 g_3\\
 g_2 g_1 & g_2^2 & g_2 g_3\\
 g_3 g_1 & g_3 g_2 & g_3^2\\
-\end{pmatrix}$ 
+\end{pmatrix}$
 
 and $\rho=\text{Diag}(\rho_1,\rho_2,\rho_3)$
 """
@@ -129,7 +129,7 @@ $\text{BW} = \frac{m_0\Gamma_0}{m_0^2-s-im_0 \Gamma_0}$
 
 # ╔═╡ fe35af83-4910-48e4-b9de-5b8a1f85fb72
 md"""
-Cross section of certain channel calculated as 
+Cross section of certain channel calculated as
 
 $\frac{\mathrm{d}\sigma}{\mathrm{d}m} = \frac{1}{J_i} |T_{ij}|^2 \frac{\mathrm{d}\Phi_j}{\mathrm{d}m}$
 
@@ -143,7 +143,7 @@ with
 md"""
 Let's setup couplings for three channels, that we can adjust:
 - g₁ = $(@bind g1_T1 Slider(range(0,4,101), default=1.2, show_value=true)) GeV for the first channel,
-- g₂ = $(@bind g2_T1 Slider(range(0,4,101), default=0.5, show_value=true)) GeV for the second channel, and 
+- g₂ = $(@bind g2_T1 Slider(range(0,4,101), default=0.5, show_value=true)) GeV for the second channel, and
 - g₃ = $(@bind g3_T1 Slider(range(0,4,101), default=1.6, show_value=true)) GeV for the third channel.
 - m₀ = $(@bind M Slider(range(0,10,101), default=5.3, show_value=true)) GeV/c² pole of the K-matrix.
 """
@@ -202,7 +202,7 @@ $K =K^{(1)}+K^{(2)}
 \begin{pmatrix}
 g_1^2 & g_1 g_2\\
 g_2 g_1 & g_2^2
-\end{pmatrix} + 
+\end{pmatrix} +
 \frac{1}{m_{(2)}^2-s}
 \begin{pmatrix}
 h_1^2 & h_1 h_2\\
@@ -217,7 +217,7 @@ md"""
 
 # ╔═╡ c7e615fa-62aa-4de2-8ef4-2df8534b2c06
 question_box(md"""
-**E2.Q1:** Let's start with setting off-diagonal parameters described coupling to zeros $g_{2}=h_{1}=0$. Then K-matrix would be What would be 
+**E2.Q1:** Let's start with setting off-diagonal parameters described coupling to zeros $g_{2}=h_{1}=0$. Then K-matrix would be What would be
 
 $K =
 \begin{pmatrix}
@@ -257,7 +257,7 @@ md"""
 ### Demonstration
 
 - g₂ = $(@bind g2_T2 Slider(range(-1,3,81), default=0.0, show_value=true)) GeV for the first channel,
-- h₁ = $(@bind h1_T2 Slider(range(-1,3,81), default=0.0, show_value=true)) GeV for the second channel, and 
+- h₁ = $(@bind h1_T2 Slider(range(-1,3,81), default=0.0, show_value=true)) GeV for the second channel, and
 """
 
 # ╔═╡ 0f2ade1e-6958-4ebd-942a-c844bf3dbb99
@@ -387,7 +387,7 @@ Production couplings
 
 # ╔═╡ cf9733b3-bdc9-4e58-a7f3-87845eb907da
 question_box(md"""
-**E3.Q2:** What can the complexity of a production factor lead to? 
+**E3.Q2:** What can the complexity of a production factor lead to?
 How the plot above will change?
 """)
 
@@ -411,7 +411,7 @@ begin
 	    L::Int
 	end
 	TwoBodyChannel(m1, m2; L::Int=0) = TwoBodyChannel(m1, m2, L)
-	# 
+	#
 	function ρ(ch::TwoBodyChannel, m; ϕ=-π / 2)
 	    ch.L != 0 && error("not implemented")
 	    sqrt(cis(ϕ) * (m - (ch.m1 + ch.m2))) * cis(-ϕ / 2) *
@@ -438,7 +438,7 @@ begin
 	#
 	amplitude(K::Kmatrix, m) =
 	    sum((gs * gs') ./ (M^2 - m^2) for (M, gs) in K.poles) + K.nonpoles
-	# 
+	#
 	npoles(X::Kmatrix{N,V}) where {N,V} = V
 	nchannels(X::Kmatrix{N,V}) where {N,V} = N
 	#
@@ -456,10 +456,10 @@ begin
 	nchannels(X::ProductionAmplitude{N,V}) where {N,V} = N
 	detD(X::ProductionAmplitude, m; ϕ=-π / 2) = detD(X.T, m; ϕ)
 	channels(X::ProductionAmplitude) = channels(X.T)
-	# 
+	#
 	ProductionAmplitude(T::Tmatrix{N,V}) where {N,V} =
 	    ProductionAmplitude(T, SVector{V}(ones(V)), SVector{N}(ones(N)))
-	# 
+	#
 	function amplitude(A::ProductionAmplitude, m; ϕ=-π / 2)
 	    @unpack T, αpoles, αnonpoles = A
 	    P = αnonpoles
@@ -478,7 +478,7 @@ begin
 	    K::Kmatrix{N,V}
 	    channels::SVector{N,TwoBodyChannel}
 	end
-	#	
+	#
 	function Dmatrix(T::Tmatrix{N,V}, m; ϕ=-π / 2) where {N,V}
 	    𝕀 = Matrix(I, (N, N))
 	    iρv = 1im .* ρ.(T.channels, m; ϕ) .* 𝕀
@@ -487,7 +487,7 @@ begin
 	end
 	detD(T::Tmatrix, m; ϕ=-π / 2) = det(Dmatrix(T, m; ϕ))
 	amplitude(T::Tmatrix, m; ϕ=-π / 2) = inv(Dmatrix(T, m; ϕ)) * amplitude(T.K, m)
-	# 
+	#
 	npoles(X::Tmatrix{N,V}) where {N,V} = V
 	nchannels(X::Tmatrix{N,V}) where {N,V} = N
 	channels(X::Tmatrix) = X.channels
@@ -502,7 +502,7 @@ T1 = let
 	        TwoBodyChannel(1.3, 1.3))
 	# one bare pole
 	MG = [(M, gs=[g1_T1, g2_T1, g3_T1])]
-	# 
+	#
 	K = Kmatrix(MG)
 	T = Tmatrix(K, channels)
 end;
@@ -529,7 +529,7 @@ T2 = let
 	MG = [
 		(M=4.3, gs=[g1_T2, g2_T2]),
 		(M=6.3, gs=[h1_T2, h2_T2])]
-	# 
+	#
 	K = Kmatrix(MG)
 	T = Tmatrix(K, channels)
 end;
@@ -567,7 +567,7 @@ T3 = let
 	MG = [
 		(M=4.3, gs=[2.1]),
 		(M=6.3, gs=[2.5])]
-	# 
+	#
 	K = Kmatrix(MG)
 	T = Tmatrix(K, channels)
 end;

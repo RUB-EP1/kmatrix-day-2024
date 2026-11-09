@@ -1,5 +1,7 @@
-from pathlib import Path
+# cspell:ignore kmatrix
+
 import shutil
+from pathlib import Path
 
 
 def copy_julia_html_page() -> list[str]:

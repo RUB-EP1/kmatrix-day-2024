@@ -3,6 +3,8 @@ myst:
   all_links_external: true
 ---
 
+<!-- cspell:ignore useb -->
+
 :::{title} Welcome
 :::
 
@@ -25,7 +27,7 @@ The core of this repository are the following interactive notebooks:
 
 Supplementary materials, including lecture notes and presentations, can be found here:
 
--  **Second talk**: {download}`Analytic continuation within K-matrix formalism <../additional_materials/Analytic_continuation_ComPWA.pdf>` (Lena Zeynep Pöpping)
+- **Second talk**: {download}`Analytic continuation within K-matrix formalism <../additional_materials/Analytic_continuation_ComPWA.pdf>` (Lena Zeynep Pöpping)
 
 :::{toctree}
 :hidden:

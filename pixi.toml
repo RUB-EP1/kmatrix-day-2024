@@ -17,8 +17,8 @@ jupyterlab-lsp = "*"
 jupyterlab-myst = "*"
 matplotlib = "*"
 myst-nb = "*"
-nbstripout = "*"
 plotly = "*"
+prek = "*"
 python = "*"
 python-lsp-server = "*"
 sphinx-autobuild = "*"
@@ -27,7 +27,6 @@ sphinx-codeautolink = "*"
 sphinx-copybutton = "*"
 sphinx-design = "*"
 sympy = "*"
-taplo = "*"
 
 [tasks.doc]
 cmd = """
@@ -69,10 +68,10 @@ julia --project -e 'using Pkg; Pkg.instantiate()'
 cmd = "jupyter lab docs"
 
 [tasks.lint]
-cmd = """
-nbstripout docs/*.ipynb && \
-taplo format
-"""
+depends-on = ["style"]
+
+[tasks.style]
+cmd = "prek run --all-files"
 
 [tasks.pluto]
 cmd = """
