@@ -12,5 +12,8 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "editor.formatOnSave": true,
+  "extensions.ignoreRecommendations": true,
+  "julia.executablePath": "${workspaceFolder}/.pixi/envs/default/bin/julia",
+  "julia.juliaup.install.hint": false,
   "livePreview.defaultPreviewPath": "docs/_build/html"
 }
