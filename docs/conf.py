@@ -21,6 +21,9 @@ copy_julia_html_page()
 codeautolink_concat_default = True
 exclude_patterns = [
     "**.ipynb_checkpoints",
+    "**AGENTS.md",
+    "**CLAUDE.md",
+    "**GEMINI.md",
     "*build",
 ]
 extensions = [
