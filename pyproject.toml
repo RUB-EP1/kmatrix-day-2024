@@ -54,6 +54,7 @@ repo-title = "International K-matrix day 2024"
 no-cspell-update = true
 
 [tool.compwa.policy.github]
+dependabot-assignees = ["redeboer"]
 dependabot-ecosystems = ["github-actions", "julia", "pre-commit", "uv"]
 no-cd = true
 no-github-actions = true
