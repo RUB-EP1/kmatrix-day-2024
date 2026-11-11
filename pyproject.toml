@@ -57,7 +57,6 @@ no-cspell-update = true
 dependabot-assignees = ["redeboer"]
 dependabot-ecosystems = ["github-actions", "julia", "pre-commit", "uv"]
 no-cd = true
-no-github-actions = true
 
 [tool.compwa.policy.nb]
 no-binder = true

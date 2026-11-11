@@ -27,6 +27,7 @@
   "files.associations": {
     "**/pixi.lock": "yaml"
   },
+  "github-actions.workflows.pinned.workflows": [".github/workflows/ci.yml"],
   "gitlens.telemetry.enabled": false,
   "julia.NumThreads": "auto",
   "julia.executablePath": "${workspaceFolder}/.pixi/envs/default/bin/julia",
