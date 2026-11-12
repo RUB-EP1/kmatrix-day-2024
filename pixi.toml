@@ -36,6 +36,23 @@ cmd = "prek autoupdate"
 [tasks._upgrade-julia]
 cmd = "julia --eval='using Pkg; Pkg.update()' --project=."
 
+[tasks._upgrade-pluto]
+cmd = """
+julia --project -e '
+    using Pluto
+    for (root, dirs, files) in walkdir(".")
+        filter!(d -> !startswith(d, "."), dirs)
+        for file in filter(endswith(".jl"), files)
+            path = joinpath(root, file)
+            startswith(readline(path), "### A Pluto.jl notebook ###") || continue
+            @info "Updating notebook environment" path
+            Pluto.update_notebook_environment(path; backup=false)
+        end
+    end
+'
+"""
+depends-on = ["_upgrade-julia"]
+
 [tasks.doc]
 cmd = "pixi run doc-sphinx"
 depends-on = ["doc-julia"]
