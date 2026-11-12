@@ -1,5 +1,17 @@
 _build/
 .ipynb_checkpoints/
+.lycheecache
 .pixi/
+.venv/
 .virtual_documents/
+*.egg-info/
 *.html
+
+# Agent tooling
+.agents/
+.claude/
+.codex/
+.gemini/
+AGENTS.md
+CLAUDE.md
+GEMINI.md

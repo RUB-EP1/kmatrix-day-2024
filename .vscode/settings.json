@@ -1,16 +1,51 @@
 {
+  "[css][json][jsonc][markdown][yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[git-commit]": {
+    "editor.rulers": [72],
+    "rewrap.wrappingColumn": 72
+  },
   "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.wordWrap": "on"
   },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "[julia]": {
+    "editor.defaultFormatter": "julialang.language-julia"
   },
-  "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    },
+    "editor.defaultFormatter": "charliermarsh.ruff"
   },
-  "[yaml]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "[toml]": {
+    "editor.defaultFormatter": "tombi-toml.tombi"
   },
+  "diffEditor.experimental.showMoves": true,
   "editor.formatOnSave": true,
-  "livePreview.defaultPreviewPath": "docs/_build/html"
+  "extensions.ignoreRecommendations": true,
+  "files.associations": {
+    "**/pixi.lock": "yaml"
+  },
+  "github-actions.workflows.pinned.workflows": [".github/workflows/ci.yml"],
+  "gitlens.telemetry.enabled": false,
+  "julia.NumThreads": "auto",
+  "julia.executablePath": "${workspaceFolder}/.pixi/envs/default/bin/julia",
+  "livePreview.defaultPreviewPath": "docs/_build/html",
+  "notebook.codeActionsOnSave": {
+    "notebook.source.organizeImports": "explicit"
+  },
+  "notebook.formatOnSave.enabled": true,
+  "notebook.gotoSymbols.showAllSymbols": true,
+  "python.defaultInterpreterPath": ".venv/bin/python",
+  "python.terminal.activateEnvironment": false,
+  "redhat.telemetry.enabled": false,
+  "rewrap.wrappingColumn": 88,
+  "ruff.enable": true,
+  "ruff.importStrategy": "fromEnvironment",
+  "ruff.organizeImports": true,
+  "search.exclude": {
+    "**/pixi.lock": true
+  },
+  "telemetry.telemetryLevel": "off"
 }

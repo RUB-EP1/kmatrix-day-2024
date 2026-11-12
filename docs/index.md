@@ -3,6 +3,8 @@ myst:
   all_links_external: true
 ---
 
+<!-- cspell:ignore useb -->
+
 :::{title} Welcome
 :::
 
@@ -12,9 +14,8 @@ myst:
 
 This repository contains educational materials focused on the application of the $K$-matrix formalism in the field of hadron physics. The materials are designed to bridge theoretical concepts with practical examples, facilitating a deeper understanding of scattering amplitude observables and resonance phenomena.
 
-:::{tip}
-See also [International K-Matrix Day 2025](https://rub-ep1.github.io/kmatrix-day-2025)!
-:::
+> [!TIP]
+> See also [International K-Matrix Day 2025](https://rub-ep1.github.io/kmatrix-day-2025)!
 
 ## Contents
 
@@ -26,7 +27,7 @@ The core of this repository are the following interactive notebooks:
 
 Supplementary materials, including lecture notes and presentations, can be found here:
 
--  **Second talk**: {download}`Analytic continuation within K-matrix formalism <../additional_materials/Analytic_continuation_ComPWA.pdf>` (Lena Zeynep Pöpping)
+- **Second talk**: {download}`Analytic continuation within K-matrix formalism <../additional_materials/Analytic_continuation_ComPWA.pdf>` (Lena Zeynep Pöpping)
 
 :::{toctree}
 :hidden:
@@ -49,22 +50,22 @@ To run the materials in this repository locally, clone the repository using:
 git clone https://github.com/RUB-EP1/kmatrix-day-2024
 ```
 
-This course utilizes [Pluto notebooks](https://plutojl.org/), which requires [Julia](https://julialang.org/), and [Jupyter notebooks](https://jupyter.org), which requires [Python](https://www.python.org/downloads). You can install and run Pluto and Jupyter yourself, but you can also use the provided [Pixi](https://pixi.sh) environment.
+This course utilizes [Pluto notebooks](https://plutojl.org/), which requires [Julia](https://julialang.org/), and [Jupyter notebooks](https://jupyter.org), which requires [Python](https://www.python.org/downloads). You can install and run Pluto and Jupyter yourself, but you can also use the provided [Pixi](https://pixi.prefix.dev/latest/) environment.
 
-1. [Install Pixi](https://pixi.sh/latest/#installation):
+1. [Install Pixi](https://pixi.prefix.dev/latest/installation/):
 
    ::::{tab-set}
    :::{tab-item} Linux / macOS
 
    ```shell
-   curl -fsSL https://pixi.sh/install.sh | bash
+   curl -fsSL https://pixi.prefix.dev/install.sh | bash
    ```
 
    :::
    :::{tab-item} Powershell
 
    ```shell
-   iwr -useb https://pixi.sh/install.ps1 | iex
+   iwr -useb https://pixi.prefix.dev/install.ps1 | iex
    ```
 
    :::
@@ -87,6 +88,5 @@ This course utilizes [Pluto notebooks](https://plutojl.org/), which requires [Ju
    pixi run pluto
    ```
 
-   :::{warning}
-   The first time you run `pixi run pluto`, it can take a few minutes before all Julia packages are downloaded and installed.
-   :::
+   > [!WARNING]
+   > The first time you run `pixi run pluto`, it can take a few minutes before all Julia packages are downloaded and installed.

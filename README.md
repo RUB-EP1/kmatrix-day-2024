@@ -1,5 +1,11 @@
 # K-Matrix Formalism in Hadron Physics
 
+[![Pixi Badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/prefix-dev/pixi/main/assets/badge/v0.json)](https://pixi.prefix.dev)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![Spelling checked](https://img.shields.io/badge/cspell-checked-brightgreen.svg)](https://github.com/streetsidesoftware/cspell/tree/main/packages/cspell)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+
 [![](https://indico.cern.ch/event/1397619/logo-3676420921.png)](https://indico.cern.ch/event/1397619)
 
 ## Overview
@@ -36,9 +42,11 @@ To get started with the materials in this repository, clone the repository using
 git clone https://github.com/RUB-EP1/kmatrix-day-2024
 ```
 
-This course utilizes [Pluto notebooks](https://plutojl.org/), which requires [Julia](https://julialang.org/), and [Jupyter notebooks](https://jupyter.org), which requires [Python](https://www.python.org/downloads). You can install and run Pluto and Jupyter yourself, but you can also use the provided [Pixi](https://pixi.sh) environment.
+This course utilizes [Pluto notebooks](https://plutojl.org/), which requires [Julia](https://julialang.org/), and [Jupyter notebooks](https://jupyter.org), which requires [Python](https://www.python.org/downloads). You can install and run Pluto and Jupyter yourself, but you can also use the provided [Pixi](https://pixi.prefix.dev/latest/) environment.
 
-1. [Install Pixi](https://pixi.sh/latest/#installation)
+Pixi provides Julia and uv. The Python tasks use uv to install Python and synchronize the Python dependencies in `.venv`.
+
+1. [Install Pixi](https://pixi.prefix.dev/latest/installation/)
 2. Run one of the Pixi tasks:
 
    ```shell
@@ -54,8 +62,8 @@ This course utilizes [Pluto notebooks](https://plutojl.org/), which requires [Ju
 
 ## References
 
-- K-matrix report from COMPWA project (see [here](https://ampform.readthedocs.io/stable/usage/dynamics/k-matrix/), [more references](https://ampform.readthedocs.io/stable/references/))
-- "A Primer on K-matrix Formalism" by Chung (download from [here](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=88b101a5300736f78293cf10116c32e5d25e3c91))
+- K-matrix report from COMPWA project (see [here](https://ampform.readthedocs.io/stable/dynamics/k-matrix.html), [more references](https://ampform.readthedocs.io/stable/references/))
+- "A Primer on K-matrix Formalism" by Chung (download from [here](https://www.ep1.ruhr-uni-bochum.de/wp-content/uploads/Cb_primer.pdf))
 - "The K-matrix formalism for overlapping resonances" by I.J.R. Aitchison, ([journal paper](https://www.sciencedirect.com/science/article/pii/0375947472903053))
 
 ## Contributing
@@ -64,6 +72,6 @@ We welcome contributions and suggestions to improve the educational materials. P
 
 ## License
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/license/MIT)
 
-This educational material is provided under MIT licence, free to reuse and distribute.
+This educational material is provided under MIT license, free to reuse and distribute.
