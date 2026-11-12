@@ -350,6 +350,7 @@ packages:
   depends:
   - vc14_runtime >=14.51.36247
   license: BSD-3-Clause
+  license_family: BSD
   run_exports: {}
   size: 18006
   timestamp: 1794305234654

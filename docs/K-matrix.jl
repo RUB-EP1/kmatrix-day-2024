@@ -692,7 +692,6 @@ Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoTeachingTools = "661c6b06-c737-4d37-b85c-46df65de6f69"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
-Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [compat]
 CalculusWithJulia = "~0.1.4"
@@ -710,7 +709,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.13.3"
 manifest_format = "2.1"
-project_hash = "74e9bbb96184ea9549d5b567bd92f0e264d03a36"
+project_hash = "2049bc52ae8fb8a0de09675ea000ae7b77ce3d80"
 
 [[deps.AbstractPlutoDingetjes]]
 git-tree-sha1 = "e71ee7b4aa06b045259a7d6101e1cb45ad140bce"
