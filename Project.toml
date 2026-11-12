@@ -8,3 +8,6 @@ PlutoSliderServer = "2fc8631c-6f24-4c5b-bca7-cbb509c42db4"
 PlutoTeachingTools = "661c6b06-c737-4d37-b85c-46df65de6f69"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
+
+[compat]
+LinearAlgebra = "<0.0.1, 1"
