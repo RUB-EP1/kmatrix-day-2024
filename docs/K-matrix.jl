@@ -16,19 +16,6 @@ macro bind(def, element)
     #! format: on
 end
 
-# ╔═╡ 2a5d2458-9958-4c9b-a183-d7029b6360c9
-# ╠═╡ show_logs = false
-begin
-	using StaticArrays
-	using Plots
-	using LaTeXStrings
-	using PlutoUI
-	using Parameters
-	using LinearAlgebra
-	using PlutoTeachingTools
-	using CalculusWithJulia
-end
-
 # ╔═╡ 9ade0bbc-0b04-4e6d-92cf-54062b638cfe
 md"""
 # Practical K-Matrix Applications
@@ -150,6 +137,44 @@ Let's setup couplings for three channels, that we can adjust:
 - m₀ = $(@bind M Slider(range(0,10,101), default=5.3, show_value=true)) GeV/c² pole of the K-matrix.
 """
 
+# ╔═╡ 0ff7e560-37ca-4016-bc01-741322402679
+T1 = let
+	# thhree channels
+	channels = SVector(
+			TwoBodyChannel(1.1, 1.1),
+	        TwoBodyChannel(2.2, 2.2),
+	        TwoBodyChannel(1.3, 1.3))
+	# one bare pole
+	MG = [(M, gs=[g1_T1, g2_T1, g3_T1])]
+	#
+	K = Kmatrix(MG)
+	T = Tmatrix(K, channels)
+end;
+
+# ╔═╡ 3e76dfec-e83c-46df-8838-b299a7aaa5e3
+let
+	m0 = T1.K.poles[1].M
+	plot(title="Scattering cross section 1 → 1", yaxis=nothing)
+	# K-matrix
+	plot!(2.6, 8, lab="Tₖ[1,1]") do e
+		A = amplitude(T1, e)[1,1]
+		phsp = real(ρ(T1.channels[1], e)) * e
+		abs2(A) * phsp
+	end
+	vline!([m0], lab="m₀ (K-matrix pole)")
+	# BW
+	N_peak = abs2(amplitude(T1, m0+iϵ)[1,1])
+	plot!(2.6, 8, lab="BW") do e
+		Γ0=sum(Γv_T1)
+		A = m0*Γ0/(m0^2-e^2-1im*m0*Γ0)
+		phsp = real(ρ(T1.channels[1], e)) * e
+		N_peak * abs2(A) * phsp
+	end
+	vline!(map(T1.channels) do ch
+		real(ch.m1+ch.m2)
+	end, lab="thresholds", ls=:dash)
+end
+
 # ╔═╡ 59ceb096-1cc0-4c69-b56f-476710dd698e
 question_box(md"""
 **E1.Q2:** Which parameter is needed to be changed in order to see difference between BW and K-matrix formalism?
@@ -174,6 +199,16 @@ Hence
 ```
 """
 
+# ╔═╡ ce2c280e-6a55-4766-a0f9-941b448c41c9
+begin
+	Γv_T1 = map(zip(T1.K.poles[1].gs, T1.channels)) do (g, ch)
+		m0 = T1.K.poles[1].M
+		Γi = g^2*ρ(ch, m0) / m0
+		round(Γi, digits=2)
+	end |> real
+	Markdown.parse("The sum: $(round(sum(Γv_T1), digits=2)) GeV = $(join(string.(Γv_T1), " + ")*" GeV"), that corresponds to $(join(string.(round.(100*Γv_T1./sum(Γv_T1), digits=1)) .*"%", ", ")), respectively.")
+end
+
 # ╔═╡ cf9bf7ac-905f-4112-a7f4-36c536d33918
 question_box(md"""
 **E1.Q3:** Let's assume that we know cross-section distribution and can measure FWHM of it. How is it possible to estimate K-matrix parameters $g_{i}$?
@@ -193,6 +228,23 @@ In the second example, we explore the 2x2 problem, focusing on scenarios with we
 
 # ╔═╡ 2486eb34-a858-4ea9-99e1-f17627589461
 RobustLocalResource("",	joinpath("..","figures","2x2_scattering.png"))
+
+# ╔═╡ a6fd628c-86db-4d3f-836b-ff376cac7f1d
+T2 = let
+	# two channels
+	channels = SVector(
+			TwoBodyChannel(1.1, 1.1),
+	        TwoBodyChannel(1.3, 1.3))
+	# two bare pole
+	g1_T2 = 2.1
+	h2_T2 = 2.5
+	MG = [
+		(M=4.3, gs=[g1_T2, g2_T2]),
+		(M=6.3, gs=[h1_T2, h2_T2])]
+	#
+	K = Kmatrix(MG)
+	T = Tmatrix(K, channels)
+end;
 
 # ╔═╡ 1663348b-ed67-4851-9365-9641e6379fcd
 md"""
@@ -261,6 +313,30 @@ md"""
 - g₂ = $(@bind g2_T2 Slider(range(-1,3,81), default=0.0, show_value=true)) GeV for the first channel,
 - h₁ = $(@bind h1_T2 Slider(range(-1,3,81), default=0.0, show_value=true)) GeV for the second channel, and
 """
+
+# ╔═╡ fbfc0e6c-775e-4025-ad06-e3f6e291ec52
+let
+	plot(title=["Scattering cross section" ""], yaxis=nothing,
+		layout=grid(2,1, heights=(0.5,0.5)), size=(700,500))
+	plot!(2.6, 8, sp=1, lab="Tₖ[1,1]") do e
+		A = amplitude(T2, e)[1,1]
+		phsp = real(ρ(T2.channels[1], e)) * e
+		abs2(A) * phsp
+	end
+	vline!(sp=1, [T2.K.poles[1].M])
+	plot!(2.6, 8, sp=2, lab="Tₖ[2,2]") do e
+		A = amplitude(T2, e)[2,2]
+		phsp = real(ρ(T2.channels[1], e)) * e
+		abs2(A) * phsp
+	end
+	vline!(sp=2, [T2.K.poles[2].M])
+	plot!(2.6, 8, sp=2, lab="Tₖ[1,2]") do e
+		A = amplitude(T2, e)[1,2]
+		phsp = real(ρ(T2.channels[1], e)) * e
+		abs2(A) * phsp
+		abs2(A) * phsp
+	end
+end
 
 # ╔═╡ 0f2ade1e-6958-4ebd-942a-c844bf3dbb99
 md"""
@@ -341,6 +417,20 @@ md"""
 ### Scattering amplitude
 """
 
+# ╔═╡ babfbc1f-7beb-44d1-b3c8-75309e8b817c
+T3 = let
+	# one channels
+	channels = SVector(
+			TwoBodyChannel(1.1, 1.1))
+	# two bare pole
+	MG = [
+		(M=4.3, gs=[2.1]),
+		(M=6.3, gs=[2.5])]
+	#
+	K = Kmatrix(MG)
+	T = Tmatrix(K, channels)
+end;
+
 # ╔═╡ 8b92df7f-d97b-43fa-8ac3-fed8ee974f5f
 md"""
 For this case K-matrix will become just a function of s:
@@ -353,6 +443,17 @@ $T = [1-iK\rho ]^{-1} K$
 If K is zero for $s=s_\text{z}$, T is zero.
 """
 
+# ╔═╡ 7b4fa73c-1075-4271-8d2f-1668d98904ab
+let
+	plot(title="Scattering cross section", yaxis=nothing)
+	plot!(2.6, 8, lab="Tₖ") do e
+		A = amplitude(T3, e)[1,1]
+		phsp = real(ρ(T3.channels[1], e)) * e
+		abs2(A) * phsp
+	end
+	vline!([T3.K.poles[1].M, T3.K.poles[2].M])
+end
+
 # ╔═╡ edef417d-b0e4-4cad-bf63-462a8d7e861f
 question_box(md"""
 **E3.Q1:** Why does it have 0?
@@ -360,6 +461,24 @@ question_box(md"""
 
 # ╔═╡ 53ad2e4e-0268-4488-9891-815922d8a8db
 aside(tip(md"For explanation let's have a look at K-matrix in these case."))
+
+# ╔═╡ 8556c8f4-89e4-4544-ad73-4da8b43a7051
+p = let
+	f1(x)=1/(T3.K.poles[1].M-x)
+	f2(x)=1/(T3.K.poles[2].M-x)
+	f3(x)=f1(x)+f2(x)
+	plot(title="K-matrix parameter")
+	plot!(rangeclamp(f1), 3, 7, lab="First pole, K1")
+	plot!(rangeclamp(f2), 3, 7, lab="Second pole, K2")
+	plot!(rangeclamp(f3), 3, 7, lab="Total")
+	vline!([T3.K.poles[1].M, T3.K.poles[2].M], linestyle=:dash)
+	hline!([0], color=:black, size=(400,300), leg=:top)
+end;
+
+# ╔═╡ e9c0d423-793d-4997-a0fd-5c67b41fffb2
+answer_box(
+TwoColumn(md"There are two poles because of which both K-matrix have asymptotics which interfere and results in 0 between them", plot(p))
+)
 
 # ╔═╡ 91db142a-109f-414a-8d2c-9d3cd92bae40
 md"""
@@ -387,6 +506,28 @@ Production couplings
 - Arg(α₂) = $(@bind ϕ2_E3 Slider(range(0,2π,100), default=0.0, show_value=true))
 """
 
+# ╔═╡ ff61d6e1-5681-4d15-8164-62baee4613ba
+A_E3 = ProductionAmplitude(T3, SVector{2}(α1_E3, α2_E3*cis(ϕ2_E3)), SVector{1}(0));
+
+# ╔═╡ b90a1c10-8e57-4b2a-b48a-ccb78010a4f5
+let
+	plot()
+	plot!(title="Production cross section", 2.6, 8, sp=1, lab="Total production", yaxis=nothing) do e
+		A = amplitude(A_E3, e)[1]
+		phsp = real(ρ(T3.channels[1], e)) * e
+		abs2(A) * phsp
+	end
+	map([1,2]) do ind
+		plot!(2.6, 8, sp=1, fill=0, alpha=0.2, lab="from R$(ind)") do e
+			A = productionpole(A_E3, e, ind)[1]
+			phsp = real(ρ(T3.channels[1], e)) * e
+			abs2(A) * phsp
+		end
+	end
+	vline!([T3.K.poles[1].M, T3.K.poles[2].M])
+	plot!()
+end
+
 # ╔═╡ cf9733b3-bdc9-4e58-a7f3-87845eb907da
 question_box(md"""
 **E3.Q2:** What can the complexity of a production factor lead to?
@@ -397,6 +538,19 @@ How the plot above will change?
 md"""
 ## Implementation
 """
+
+# ╔═╡ 2a5d2458-9958-4c9b-a183-d7029b6360c9
+# ╠═╡ show_logs = false
+begin
+	using StaticArrays
+	using Plots
+	using LaTeXStrings
+	using PlutoUI
+	using Parameters
+	using LinearAlgebra
+	using PlutoTeachingTools
+	using CalculusWithJulia
+end
 
 # ╔═╡ 25758574-5da4-4fbe-946d-d55f6210b7e2
 theme(:wong2, frame=:box, grid=false, minorticks=true,
@@ -446,6 +600,39 @@ begin
 	#
 end
 
+# ╔═╡ 1072afe6-bad7-4de3-9ad2-6dcef2b924bb
+begin
+	struct Tmatrix{N,V}
+	    K::Kmatrix{N,V}
+	    channels::SVector{N,TwoBodyChannel}
+	end
+	#
+	function Dmatrix(T::Tmatrix{N,V}, m; ϕ=-π / 2) where {N,V}
+	    𝕀 = Matrix(I, (N, N))
+	    iρv = 1im .* ρ.(T.channels, m; ϕ) .* 𝕀
+	    K = amplitude(T.K, m)
+	    D = 𝕀 - K * iρv
+	end
+	detD(T::Tmatrix, m; ϕ=-π / 2) = det(Dmatrix(T, m; ϕ))
+	amplitude(T::Tmatrix, m; ϕ=-π / 2) = inv(Dmatrix(T, m; ϕ)) * amplitude(T.K, m)
+	#
+	npoles(X::Tmatrix{N,V}) where {N,V} = V
+	nchannels(X::Tmatrix{N,V}) where {N,V} = N
+	channels(X::Tmatrix) = X.channels
+end
+
+# ╔═╡ ebf8b842-99ce-40e8-9bf4-931471879bf9
+function productionpole(T::Tmatrix, m, iR::Int; ϕ=-π / 2)
+    @unpack M, gs = T.K.poles[iR]
+    P = gs ./ (M^2 - m^2)
+    return inv(Dmatrix(T, m; ϕ)) * P
+end
+
+# ╔═╡ 9a2e8210-c140-4689-bb16-2aab3c3b2aaa
+productionnonpole(T::Tmatrix{N,K}, m; ϕ=-π / 2) where {N,K} =
+    inv(Dmatrix(T, m; ϕ)) * ones(N)
+#
+
 # ╔═╡ fb45f5a8-15c4-4695-b36b-f21aab1e3d80
 begin
 	struct ProductionAmplitude{N,V}
@@ -474,176 +661,8 @@ begin
 	end
 end
 
-# ╔═╡ 1072afe6-bad7-4de3-9ad2-6dcef2b924bb
-begin
-	struct Tmatrix{N,V}
-	    K::Kmatrix{N,V}
-	    channels::SVector{N,TwoBodyChannel}
-	end
-	#
-	function Dmatrix(T::Tmatrix{N,V}, m; ϕ=-π / 2) where {N,V}
-	    𝕀 = Matrix(I, (N, N))
-	    iρv = 1im .* ρ.(T.channels, m; ϕ) .* 𝕀
-	    K = amplitude(T.K, m)
-	    D = 𝕀 - K * iρv
-	end
-	detD(T::Tmatrix, m; ϕ=-π / 2) = det(Dmatrix(T, m; ϕ))
-	amplitude(T::Tmatrix, m; ϕ=-π / 2) = inv(Dmatrix(T, m; ϕ)) * amplitude(T.K, m)
-	#
-	npoles(X::Tmatrix{N,V}) where {N,V} = V
-	nchannels(X::Tmatrix{N,V}) where {N,V} = N
-	channels(X::Tmatrix) = X.channels
-end
-
-# ╔═╡ 0ff7e560-37ca-4016-bc01-741322402679
-T1 = let
-	# thhree channels
-	channels = SVector(
-			TwoBodyChannel(1.1, 1.1),
-	        TwoBodyChannel(2.2, 2.2),
-	        TwoBodyChannel(1.3, 1.3))
-	# one bare pole
-	MG = [(M, gs=[g1_T1, g2_T1, g3_T1])]
-	#
-	K = Kmatrix(MG)
-	T = Tmatrix(K, channels)
-end;
-
-# ╔═╡ ce2c280e-6a55-4766-a0f9-941b448c41c9
-begin
-	Γv_T1 = map(zip(T1.K.poles[1].gs, T1.channels)) do (g, ch)
-		m0 = T1.K.poles[1].M
-		Γi = g^2*ρ(ch, m0) / m0
-		round(Γi, digits=2)
-	end |> real
-	Markdown.parse("The sum: $(round(sum(Γv_T1), digits=2)) GeV = $(join(string.(Γv_T1), " + ")*" GeV"), that corresponds to $(join(string.(round.(100*Γv_T1./sum(Γv_T1), digits=1)) .*"%", ", ")), respectively.")
-end
-
-# ╔═╡ a6fd628c-86db-4d3f-836b-ff376cac7f1d
-T2 = let
-	# two channels
-	channels = SVector(
-			TwoBodyChannel(1.1, 1.1),
-	        TwoBodyChannel(1.3, 1.3))
-	# two bare pole
-	g1_T2 = 2.1
-	h2_T2 = 2.5
-	MG = [
-		(M=4.3, gs=[g1_T2, g2_T2]),
-		(M=6.3, gs=[h1_T2, h2_T2])]
-	#
-	K = Kmatrix(MG)
-	T = Tmatrix(K, channels)
-end;
-
-# ╔═╡ fbfc0e6c-775e-4025-ad06-e3f6e291ec52
-let
-	plot(title=["Scattering cross section" ""], yaxis=nothing,
-		layout=grid(2,1, heights=(0.5,0.5)), size=(700,500))
-	plot!(2.6, 8, sp=1, lab="Tₖ[1,1]") do e
-		A = amplitude(T2, e)[1,1]
-		phsp = real(ρ(T2.channels[1], e)) * e
-		abs2(A) * phsp
-	end
-	vline!(sp=1, [T2.K.poles[1].M])
-	plot!(2.6, 8, sp=2, lab="Tₖ[2,2]") do e
-		A = amplitude(T2, e)[2,2]
-		phsp = real(ρ(T2.channels[1], e)) * e
-		abs2(A) * phsp
-	end
-	vline!(sp=2, [T2.K.poles[2].M])
-	plot!(2.6, 8, sp=2, lab="Tₖ[1,2]") do e
-		A = amplitude(T2, e)[1,2]
-		phsp = real(ρ(T2.channels[1], e)) * e
-		abs2(A) * phsp
-		abs2(A) * phsp
-	end
-end
-
-# ╔═╡ babfbc1f-7beb-44d1-b3c8-75309e8b817c
-T3 = let
-	# one channels
-	channels = SVector(
-			TwoBodyChannel(1.1, 1.1))
-	# two bare pole
-	MG = [
-		(M=4.3, gs=[2.1]),
-		(M=6.3, gs=[2.5])]
-	#
-	K = Kmatrix(MG)
-	T = Tmatrix(K, channels)
-end;
-
-# ╔═╡ 8556c8f4-89e4-4544-ad73-4da8b43a7051
-p = let
-	f1(x)=1/(T3.K.poles[1].M-x)
-	f2(x)=1/(T3.K.poles[2].M-x)
-	f3(x)=f1(x)+f2(x)
-	plot(title="K-matrix parameter")
-	plot!(rangeclamp(f1), 3, 7, lab="First pole, K1")
-	plot!(rangeclamp(f2), 3, 7, lab="Second pole, K2")
-	plot!(rangeclamp(f3), 3, 7, lab="Total")
-	vline!([T3.K.poles[1].M, T3.K.poles[2].M], linestyle=:dash)
-	hline!([0], color=:black, size=(400,300), leg=:top)
-end;
-
-# ╔═╡ e9c0d423-793d-4997-a0fd-5c67b41fffb2
-answer_box(
-TwoColumn(md"There are two poles because of which both K-matrix have asymptotics which interfere and results in 0 between them", plot(p))
-)
-
-# ╔═╡ ff61d6e1-5681-4d15-8164-62baee4613ba
-A_E3 = ProductionAmplitude(T3, SVector{2}(α1_E3, α2_E3*cis(ϕ2_E3)), SVector{1}(0));
-
-# ╔═╡ 7b4fa73c-1075-4271-8d2f-1668d98904ab
-let
-	plot(title="Scattering cross section", yaxis=nothing)
-	plot!(2.6, 8, lab="Tₖ") do e
-		A = amplitude(T3, e)[1,1]
-		phsp = real(ρ(T3.channels[1], e)) * e
-		abs2(A) * phsp
-	end
-	vline!([T3.K.poles[1].M, T3.K.poles[2].M])
-end
-
-# ╔═╡ ebf8b842-99ce-40e8-9bf4-931471879bf9
-function productionpole(T::Tmatrix, m, iR::Int; ϕ=-π / 2)
-    @unpack M, gs = T.K.poles[iR]
-    P = gs ./ (M^2 - m^2)
-    return inv(Dmatrix(T, m; ϕ)) * P
-end
-
-# ╔═╡ 9a2e8210-c140-4689-bb16-2aab3c3b2aaa
-productionnonpole(T::Tmatrix{N,K}, m; ϕ=-π / 2) where {N,K} =
-    inv(Dmatrix(T, m; ϕ)) * ones(N)
-#
-
 # ╔═╡ 474e5d19-b537-42d2-9e92-2a26996cee2d
 const iϵ = 1e-7im
-
-# ╔═╡ 3e76dfec-e83c-46df-8838-b299a7aaa5e3
-let
-	m0 = T1.K.poles[1].M
-	plot(title="Scattering cross section 1 → 1", yaxis=nothing)
-	# K-matrix
-	plot!(2.6, 8, lab="Tₖ[1,1]") do e
-		A = amplitude(T1, e)[1,1]
-		phsp = real(ρ(T1.channels[1], e)) * e
-		abs2(A) * phsp
-	end
-	vline!([m0], lab="m₀ (K-matrix pole)")
-	# BW
-	N_peak = abs2(amplitude(T1, m0+iϵ)[1,1])
-	plot!(2.6, 8, lab="BW") do e
-		Γ0=sum(Γv_T1)
-		A = m0*Γ0/(m0^2-e^2-1im*m0*Γ0)
-		phsp = real(ρ(T1.channels[1], e)) * e
-		N_peak * abs2(A) * phsp
-	end
-	vline!(map(T1.channels) do ch
-		real(ch.m1+ch.m2)
-	end, lab="thresholds", ls=:dash)
-end
 
 # ╔═╡ 35b9a451-5fac-46e2-97bb-ebc19d4b3418
 function productionpole(A::ProductionAmplitude{N,V}, m, iR::Int; ϕ=-π / 2) where {N,V}
@@ -652,25 +671,6 @@ function productionpole(A::ProductionAmplitude{N,V}, m, iR::Int; ϕ=-π / 2) whe
     αpoles[iR] = A.αpoles[iR]
     A = ProductionAmplitude(A.T, SVector{V}(αpoles), αnonpoles)
     return amplitude(A, m; ϕ)
-end
-
-# ╔═╡ b90a1c10-8e57-4b2a-b48a-ccb78010a4f5
-let
-	plot()
-	plot!(title="Production cross section", 2.6, 8, sp=1, lab="Total production", yaxis=nothing) do e
-		A = amplitude(A_E3, e)[1]
-		phsp = real(ρ(T3.channels[1], e)) * e
-		abs2(A) * phsp
-	end
-	map([1,2]) do ind
-		plot!(2.6, 8, sp=1, fill=0, alpha=0.2, lab="from R$(ind)") do e
-			A = productionpole(A_E3, e, ind)[1]
-			phsp = real(ρ(T3.channels[1], e)) * e
-			abs2(A) * phsp
-		end
-	end
-	vline!([T3.K.poles[1].M, T3.K.poles[2].M])
-	plot!()
 end
 
 # ╔═╡ 2aef1bd5-7a81-417b-a090-77644fc5f640
@@ -694,11 +694,11 @@ PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 
 [compat]
-CalculusWithJulia = "~0.1.4"
-LaTeXStrings = "~1.3.1"
-Parameters = "~0.12.3"
-Plots = "~1.39.0"
-PlutoTeachingTools = "~0.2.15"
+CalculusWithJulia = "~0.3.3"
+LaTeXStrings = "~1.4.1"
+Parameters = "~0.13.1"
+Plots = "~1.41.7"
+PlutoTeachingTools = "~0.5.0"
 PlutoUI = "~0.7.84"
 StaticArrays = "~1.9.24"
 """
@@ -709,7 +709,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.13.3"
 manifest_format = "2.1"
-project_hash = "2049bc52ae8fb8a0de09675ea000ae7b77ce3d80"
+project_hash = "4eece068363d53faf2eef9f78aa4bd48b23b49d2"
 
 [[deps.AbstractPlutoDingetjes]]
 git-tree-sha1 = "e71ee7b4aa06b045259a7d6101e1cb45ad140bce"
@@ -761,22 +761,12 @@ version = "1.11.0"
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 version = "1.11.0"
 
-[[deps.BitFlags]]
-git-tree-sha1 = "bbe1079eecf9c9fbb52765193ad2bae27ae09bc8"
-registries = "General"
-uuid = "d1d4a3ce-64b1-5f1a-9ba4-7e7e69966f35"
-version = "0.1.10"
-
 [[deps.Bzip2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
 git-tree-sha1 = "1b96ea4a01afe0ea4090c5c8039690672dd13f2e"
 registries = "General"
 uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.9+0"
-
-[[deps.CRC32c]]
-uuid = "8bf52ea8-c179-5cab-976a-9e18b702a9bc"
-version = "1.11.0"
 
 [[deps.Cairo_jll]]
 deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "Libdl", "Pixman_jll", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
@@ -786,25 +776,19 @@ uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.18.8+1"
 
 [[deps.CalculusWithJulia]]
-deps = ["Base64", "Contour", "ForwardDiff", "HCubature", "IntervalSets", "JSON", "LinearAlgebra", "PlotUtils", "Random", "RecipesBase", "Reexport", "Requires", "Roots", "SpecialFunctions", "SplitApplyCombine", "Test"]
-git-tree-sha1 = "df0608635021120c3d2e19a70edbb6506549fe14"
+deps = ["Base64", "Contour", "ForwardDiff", "IntervalSets", "LinearAlgebra", "PlotUtils", "Printf", "Random", "Reexport", "Roots", "SpecialFunctions", "SplitApplyCombine", "Test"]
+git-tree-sha1 = "9a8295857b1d5f1c2e4fa160e37e9e468f7805a3"
 registries = "General"
 uuid = "a2e0e22d-7d4c-5312-9169-8b992201a882"
-version = "0.1.4"
+version = "0.3.3"
 
-[[deps.CodeTracking]]
-deps = ["InteractiveUtils", "REPL", "UUIDs"]
-git-tree-sha1 = "cfb7a2e89e245a9d5016b70323db412b3a7438d5"
-registries = "General"
-uuid = "da1fd8a2-8d9e-5ec2-8556-3022fb5608a2"
-version = "3.0.2"
+    [deps.CalculusWithJulia.extensions]
+    CalculusWithJuliaPlotsExt = "Plots"
+    CalculusWithJuliaSymPyCoreExt = "SymPyCore"
 
-[[deps.CodecZlib]]
-deps = ["TranscodingStreams", "Zlib_jll"]
-git-tree-sha1 = "970758a3d591a2a5c2a907c53f2e2f8c1b1d3537"
-registries = "General"
-uuid = "944b1d66-785c-5afd-91f1-9de20f533193"
-version = "0.7.9"
+    [deps.CalculusWithJulia.weakdeps]
+    Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+    SymPyCore = "458b697b-88f0-4a86-b56b-78b75cfb3531"
 
 [[deps.ColorSchemes]]
 deps = ["ColorTypes", "ColorVectorSpace", "Colors", "FixedPointNumbers", "PrecompileTools", "Random"]
@@ -842,12 +826,6 @@ registries = "General"
 uuid = "5ae59095-9a9b-59fe-a467-6f913c188581"
 version = "0.13.4"
 
-[[deps.Combinatorics]]
-git-tree-sha1 = "c761b00e7755700f9cdf5b02039939d1359330e1"
-registries = "General"
-uuid = "861a8166-3701-5b0c-9a16-15d98fcdc6aa"
-version = "1.1.0"
-
 [[deps.CommonSolve]]
 deps = ["PrecompileTools"]
 git-tree-sha1 = "6c389fa857f6ca5a95474b52a52023fd77f24cb7"
@@ -861,12 +839,6 @@ git-tree-sha1 = "cda2cfaebb4be89c9084adaca7dd7333369715c5"
 registries = "General"
 uuid = "bbf7d656-a473-5ed7-a52c-81e309532950"
 version = "0.3.1"
-
-[[deps.Compiler]]
-git-tree-sha1 = "382d79bfe72a406294faca39ef0c3cef6e6ce1f1"
-registries = "General"
-uuid = "807dbc54-b67e-4c79-8afb-eafe4df6f2e1"
-version = "0.1.1"
 
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -882,13 +854,6 @@ weakdeps = ["InverseFunctions"]
 
     [deps.CompositionsBase.extensions]
     CompositionsBaseInverseFunctionsExt = "InverseFunctions"
-
-[[deps.ConcurrentUtilities]]
-deps = ["Serialization", "Sockets"]
-git-tree-sha1 = "8e0b1057b8c3627562526304d3cc8f835fbb36c0"
-registries = "General"
-uuid = "f0e56b4a-5159-44fe-b623-3e5288b988bb"
-version = "2.8.0"
 
 [[deps.ConstructionBase]]
 git-tree-sha1 = "b1bc10667320dd5367aff450a992c951ea38fbbc"
@@ -956,16 +921,16 @@ version = "1.1.0"
 
 [[deps.DiffRules]]
 deps = ["IrrationalConstants", "LogExpFunctions", "NaNMath", "Random", "SpecialFunctions"]
-git-tree-sha1 = "79a2aca180a85c690c58a020d47b426954b590f8"
+git-tree-sha1 = "7ab8388b721794863a6e809a2436e639832ee74a"
 registries = "General"
 uuid = "b552c78f-8df3-52c6-915a-8e097449b14b"
-version = "1.16.0"
+version = "1.17.1"
 
 [[deps.DocStringExtensions]]
-git-tree-sha1 = "7442a5dfe1ebb773c29cc2962a8980f47221d76c"
+git-tree-sha1 = "38ef52f18cbdfa783ec6c25acc23fb1e8525ec16"
 registries = "General"
 uuid = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
-version = "0.9.5"
+version = "0.10.2"
 
 [[deps.Downloads]]
 deps = ["ArgTools", "FileWatching", "LibCURL", "NetworkOptions"]
@@ -978,13 +943,6 @@ git-tree-sha1 = "8a4be429317c42cfae6a7fc03c31bad1970c310d"
 registries = "General"
 uuid = "2702e6a9-849d-5ed8-8c21-79e8b8f9ee43"
 version = "0.0.20230411+1"
-
-[[deps.ExceptionUnwrapping]]
-deps = ["Test"]
-git-tree-sha1 = "4e468f521e1f9f86891cb07186de5df90360a666"
-registries = "General"
-uuid = "460bff9d-24e4-43bc-9d9f-a8973cb893f4"
-version = "0.1.12"
 
 [[deps.Expat_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
@@ -1033,10 +991,10 @@ version = "1.3.7"
 
 [[deps.ForwardDiff]]
 deps = ["CommonSubexpressions", "DiffResults", "DiffRules", "LinearAlgebra", "LogExpFunctions", "NaNMath", "Preferences", "Printf", "Random", "SpecialFunctions"]
-git-tree-sha1 = "afb7c51ac63e40708a3071f80f5e84a752299d4f"
+git-tree-sha1 = "a55669aa77ae8bbdc7310c4027112500ff5ec874"
 registries = "General"
 uuid = "f6369f11-7733-5829-9624-2563aa707210"
-version = "0.10.39"
+version = "1.4.7"
 weakdeps = ["StaticArrays"]
 
     [deps.ForwardDiff.extensions]
@@ -1064,18 +1022,24 @@ uuid = "0656b61e-2033-5cc2-a64a-77c0f6c09b89"
 version = "3.5.1+0"
 
 [[deps.GR]]
-deps = ["Artifacts", "Base64", "DelimitedFiles", "Downloads", "GR_jll", "HTTP", "JSON", "Libdl", "LinearAlgebra", "Pkg", "Preferences", "Printf", "Random", "Serialization", "Sockets", "TOML", "Tar", "Test", "UUIDs", "p7zip_jll"]
-git-tree-sha1 = "27442171f28c952804dede8ff72828a96f2bfc1f"
+deps = ["Artifacts", "Base64", "DelimitedFiles", "Downloads", "GR_jll", "JSON", "Libdl", "LinearAlgebra", "Preferences", "Printf", "Qt6Wayland_jll", "Random", "Serialization", "Sockets", "TOML", "Tar", "Test", "p7zip_jll"]
+git-tree-sha1 = "4d777f73c46b46b8b5276206059cf8a195499314"
 registries = "General"
 uuid = "28b8d3ca-fb5f-59d9-8090-bfdbd6d07a71"
-version = "0.72.10"
+version = "0.73.27"
+
+    [deps.GR.extensions]
+    IJuliaExt = "IJulia"
+
+    [deps.GR.weakdeps]
+    IJulia = "7073ff75-c697-5162-941a-fcdaad2a7d2a"
 
 [[deps.GR_jll]]
 deps = ["Artifacts", "Bzip2_jll", "Cairo_jll", "FFMPEG_jll", "Fontconfig_jll", "FreeType2_jll", "GLFW_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pixman_jll", "Qt6Base_jll", "Zlib_jll", "libpng_jll"]
-git-tree-sha1 = "025d171a2847f616becc0f84c8dc62fe18f0f6dd"
+git-tree-sha1 = "f8eb8f7ba13ea75083531647fc8faeda8d541f07"
 registries = "General"
 uuid = "d2c73de3-f751-5644-a686-071e5b155ba9"
-version = "0.72.10+0"
+version = "0.73.27+0"
 
 [[deps.GettextRuntime_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Libiconv_jll"]
@@ -1105,20 +1069,6 @@ registries = "General"
 uuid = "3b182d85-2403-5c21-9c21-1e1f0cc25472"
 version = "1.3.16+0"
 
-[[deps.HCubature]]
-deps = ["Combinatorics", "DataStructures", "LinearAlgebra", "QuadGK", "StaticArrays"]
-git-tree-sha1 = "8ee627fb73ecba0b5254158b04d4745611b404a1"
-registries = "General"
-uuid = "19dc6840-f33b-545b-b366-655c7e3ffd49"
-version = "1.8.0"
-
-[[deps.HTTP]]
-deps = ["Base64", "CodecZlib", "ConcurrentUtilities", "Dates", "ExceptionUnwrapping", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "OpenSSL", "PrecompileTools", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
-git-tree-sha1 = "49a7885f0e1c0ecabd51b25f2fd14f26357777e0"
-registries = "General"
-uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
-version = "1.11.1"
-
 [[deps.HarfBuzz_jll]]
 deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "Graphite2_jll", "JLLWrappers", "Libdl", "Libffi_jll"]
 git-tree-sha1 = "59d266e426ab9695f625fe2b6a51c2d3a04f1ecd"
@@ -1135,10 +1085,10 @@ version = "0.0.5"
 
 [[deps.HypertextLiteral]]
 deps = ["Tricks"]
-git-tree-sha1 = "7134810b1afce04bbc1045ca1985fbe81ce17653"
+git-tree-sha1 = "d1a86724f81bcd184a38fd284ce183ec067d71a0"
 registries = "General"
 uuid = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
-version = "0.9.5"
+version = "1.0.0"
 
 [[deps.IOCapture]]
 deps = ["Logging", "Random"]
@@ -1229,13 +1179,6 @@ registries = "General"
 uuid = "aacddb02-875f-59d6-b918-886e6ef4fbf8"
 version = "3.2.1+0"
 
-[[deps.JuliaInterpreter]]
-deps = ["CodeTracking", "InteractiveUtils", "Random"]
-git-tree-sha1 = "c35411a62b74a0288934ffcfad4fa8dd09b72630"
-registries = "General"
-uuid = "aa1ae85d-cabe-5617-a682-6adf51b2e16a"
-version = "0.12.2"
-
 [[deps.JuliaSyntaxHighlighting]]
 deps = ["StyledStrings"]
 uuid = "ac6e5ff7-fb65-4e79-a425-ec3bc9c03011"
@@ -1249,11 +1192,11 @@ uuid = "c1c5ebd0-6772-5130-a774-d5fcae4a789d"
 version = "3.100.3+0"
 
 [[deps.LERC_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "bf36f528eec6634efc60d7ec062008f171071434"
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "6d7c65411dda4bfa0beb7490476122b4f805cf31"
 registries = "General"
 uuid = "88015f11-f218-50d7-93a8-a6af411a945d"
-version = "3.0.0+1"
+version = "4.3.0+0"
 
 [[deps.LLVMOpenMP_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
@@ -1263,10 +1206,10 @@ uuid = "1d63c593-3942-5779-bab2-d838dc0a180e"
 version = "23.1.1+0"
 
 [[deps.LaTeXStrings]]
-git-tree-sha1 = "50901ebc375ed41dbf8058da26f9de442febbbec"
+git-tree-sha1 = "f88f3ccef05a6a72a0cf0ed417c8fd68530f4ab2"
 registries = "General"
 uuid = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
-version = "1.3.1"
+version = "1.4.1"
 
 [[deps.Latexify]]
 deps = ["Format", "Ghostscript_jll", "InteractiveUtils", "LaTeXStrings", "MacroTools", "Markdown", "OrderedCollections", "Requires"]
@@ -1346,10 +1289,10 @@ version = "2.42.4+0"
 
 [[deps.Libtiff_jll]]
 deps = ["Artifacts", "JLLWrappers", "JpegTurbo_jll", "LERC_jll", "Libdl", "XZ_jll", "Zlib_jll", "Zstd_jll"]
-git-tree-sha1 = "2da088d113af58221c52828a80378e16be7d037a"
+git-tree-sha1 = "aebd334d06cee9f24cea70bd19a39749daf73881"
 registries = "General"
 uuid = "89763e89-9b03-5906-acba-b20f662cd828"
-version = "4.5.1+1"
+version = "4.7.3+0"
 
 [[deps.Libuuid_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
@@ -1365,10 +1308,10 @@ version = "1.13.0"
 
 [[deps.LogExpFunctions]]
 deps = ["DocStringExtensions", "IrrationalConstants", "LinearAlgebra"]
-git-tree-sha1 = "13ca9e2586b89836fd20cccf56e57e2b9ae7f38f"
+git-tree-sha1 = "52702dc5aba6392de19d734750c37ffb08515dc0"
 registries = "General"
 uuid = "2ab3a3ac-af41-5b50-aa03-7779005ae688"
-version = "0.3.29"
+version = "1.0.5"
 
     [deps.LogExpFunctions.extensions]
     LogExpFunctionsChainRulesCoreExt = "ChainRulesCore"
@@ -1383,20 +1326,6 @@ version = "0.3.29"
 [[deps.Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
 version = "1.11.0"
-
-[[deps.LoggingExtras]]
-deps = ["Dates", "Logging"]
-git-tree-sha1 = "f00544d95982ea270145636c181ceda21c4e2575"
-registries = "General"
-uuid = "e6f89c97-d47a-5376-807f-9c37f3926c36"
-version = "1.2.0"
-
-[[deps.LoweredCodeUtils]]
-deps = ["CodeTracking", "Compiler", "JuliaInterpreter"]
-git-tree-sha1 = "b3383cd2b17d8ad4ab7becf07cea43ad692c58bf"
-registries = "General"
-uuid = "6f1432cf-f94c-5a45-995e-cdbf5db27b0b"
-version = "3.10.2"
 
 [[deps.MIMEs]]
 git-tree-sha1 = "c64d943587f7187e751162b3b84445bbbd79f691"
@@ -1414,20 +1343,6 @@ version = "0.5.16"
 deps = ["Base64", "JuliaSyntaxHighlighting", "StyledStrings"]
 uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
 version = "1.11.0"
-
-[[deps.MbedTLS]]
-deps = ["Dates", "MbedTLS_jll", "MozillaCACerts_jll", "NetworkOptions", "Random", "Sockets"]
-git-tree-sha1 = "0e4b139a1f0f0b8c054fcdfd3be5f610cfb8c787"
-registries = "General"
-uuid = "739be429-bea8-5141-9913-cc70e7f3736d"
-version = "1.2.0"
-
-[[deps.MbedTLS_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "ff69a2b1330bcb730b9ac1ab7dd680176f5896b8"
-registries = "General"
-uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
-version = "2.28.1010+0"
 
 [[deps.Measures]]
 git-tree-sha1 = "b513cedd20d9c914783d8ad83d08120702bf2c77"
@@ -1478,13 +1393,6 @@ deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
 uuid = "05823500-19ac-5b8b-9628-191a04bc5112"
 version = "0.8.7+0"
 
-[[deps.OpenSSL]]
-deps = ["BitFlags", "Dates", "MozillaCACerts_jll", "NetworkOptions", "OpenSSL_jll", "Sockets"]
-git-tree-sha1 = "571a7f66ba42342ee37b46e5b927d3883983b3c1"
-registries = "General"
-uuid = "4d8831e6-92b7-49fb-bdf8-b643e874388c"
-version = "1.11.0"
-
 [[deps.OpenSSL_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
@@ -1505,10 +1413,10 @@ uuid = "91d4177d-7536-5919-b921-800302f37372"
 version = "1.6.1+0"
 
 [[deps.OrderedCollections]]
-git-tree-sha1 = "94ba93778373a53bfd5a0caaf7d809c445292ff4"
+git-tree-sha1 = "b079a6affebde167dad8ffe0d670b53917fbcb68"
 registries = "General"
 uuid = "bac558e1-5e72-5ebc-8fee-abe8a469f55d"
-version = "1.8.2"
+version = "2.0.3"
 
 [[deps.PCRE2_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -1524,10 +1432,10 @@ version = "1.58.2+0"
 
 [[deps.Parameters]]
 deps = ["OrderedCollections", "UnPack"]
-git-tree-sha1 = "34c0e9ad262e5f7fc75b10a9952ca7692cfc5fbe"
+git-tree-sha1 = "0ed04c372da78ff5b98e35e3bd4f4ca9931299cc"
 registries = "General"
 uuid = "d96e819e-fc66-5662-9728-84c9c7592b0a"
-version = "0.12.3"
+version = "0.13.1"
 
 [[deps.Parsers]]
 deps = ["Dates", "PrecompileTools"]
@@ -1567,11 +1475,11 @@ uuid = "995b91a9-d308-5afd-9ec6-746e21dbc043"
 version = "1.5.1"
 
 [[deps.Plots]]
-deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "JLFzf", "JSON", "LaTeXStrings", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "Pkg", "PlotThemes", "PlotUtils", "PrecompileTools", "Preferences", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "RelocatableFolders", "Requires", "Scratch", "Showoff", "SparseArrays", "Statistics", "StatsBase", "UUIDs", "UnicodeFun", "UnitfulLatexify", "Unzip"]
-git-tree-sha1 = "ccee59c6e48e6f2edf8a5b64dc817b6729f99eb5"
+deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "JLFzf", "JSON", "LaTeXStrings", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "Pkg", "PlotThemes", "PlotUtils", "PrecompileTools", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "RelocatableFolders", "Requires", "Scratch", "Showoff", "SparseArrays", "Statistics", "StatsBase", "TOML", "UUIDs", "UnicodeFun", "Unzip"]
+git-tree-sha1 = "83bd514e8ff16b5858ac54c53fa0bcf6002a3b00"
 registries = "General"
 uuid = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
-version = "1.39.0"
+version = "1.41.7"
 
     [deps.Plots.extensions]
     FileIOExt = "FileIO"
@@ -1587,26 +1495,12 @@ version = "1.39.0"
     ImageInTerminal = "d8c32880-2388-543b-8c61-d9f865259254"
     Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 
-[[deps.PlutoHooks]]
-deps = ["InteractiveUtils", "Markdown", "UUIDs"]
-git-tree-sha1 = "844a829c8dc9fd0fe62eced22bc2d0dfd66a3f51"
-registries = "General"
-uuid = "0ff47ea0-7a50-410d-8455-4348d5de0774"
-version = "0.1.0"
-
-[[deps.PlutoLinks]]
-deps = ["FileWatching", "InteractiveUtils", "Markdown", "PlutoHooks", "Revise", "UUIDs"]
-git-tree-sha1 = "aea4eede5ab3ee188906d0cf3bbfa36eb543dccc"
-registries = "General"
-uuid = "0ff47ea0-7a50-410d-8455-4348d5de0420"
-version = "0.1.8"
-
 [[deps.PlutoTeachingTools]]
-deps = ["Downloads", "HypertextLiteral", "LaTeXStrings", "Latexify", "Markdown", "PlutoLinks", "PlutoUI", "Random"]
-git-tree-sha1 = "5d9ab1a4faf25a62bb9d07ef0003396ac258ef1c"
+deps = ["Downloads", "HypertextLiteral", "Latexify", "Markdown", "PlutoUI"]
+git-tree-sha1 = "5d103af2482cccf2d9737c365a2d53af0597df95"
 registries = "General"
 uuid = "661c6b06-c737-4d37-b85c-46df65de6f69"
-version = "0.2.15"
+version = "0.5.0"
 
 [[deps.PlutoUI]]
 deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "Downloads", "FixedPointNumbers", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "Logging", "MIMEs", "Markdown", "Random", "Reexport", "URIs", "UUIDs"]
@@ -1617,10 +1511,10 @@ version = "0.7.84"
 
 [[deps.PrecompileTools]]
 deps = ["Preferences"]
-git-tree-sha1 = "edbeefc7a4889f528644251bdb5fc9ab5348bc2c"
+git-tree-sha1 = "1e697ad6f68af89cd3651bbe9b4a7b5d800adf5a"
 registries = "General"
 uuid = "aea7be01-6a6a-4083-8856-8a6e6704d82a"
-version = "1.3.4"
+version = "1.4.0"
 
 [[deps.Preferences]]
 deps = ["TOML"]
@@ -1642,23 +1536,38 @@ version = "1.4.0"
 
 [[deps.Qt6Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Vulkan_Loader_jll", "Xorg_libSM_jll", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_cursor_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "libinput_jll", "xkbcommon_jll"]
-git-tree-sha1 = "37b7bb7aabf9a085e0044307e1717436117f2b3b"
+git-tree-sha1 = "144895f6166994730ee7ff8113b981fc360638f1"
 registries = "General"
 uuid = "c0090381-4147-56d7-9ebc-da0b1113ec56"
-version = "6.5.3+1"
+version = "6.10.2+2"
 
-[[deps.QuadGK]]
-deps = ["DataStructures", "LinearAlgebra"]
-git-tree-sha1 = "5e8e8b0ab68215d7a2b14b9921a946fee794749e"
+[[deps.Qt6Declarative_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Qt6Base_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll"]
+git-tree-sha1 = "159d253ab126d5b29230cf53521899bea4ef4648"
 registries = "General"
-uuid = "1fd47b50-473d-5c70-9696-f719f8f3bcdc"
-version = "2.11.3"
+uuid = "629bc702-f1f5-5709-abd5-49b8460ea067"
+version = "6.10.2+2"
 
-    [deps.QuadGK.extensions]
-    QuadGKEnzymeExt = "Enzyme"
+[[deps.Qt6ShaderTools_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Qt6Base_jll"]
+git-tree-sha1 = "4d85eedf69d875982c46643f6b4f66919d7e157b"
+registries = "General"
+uuid = "ce943373-25bb-56aa-8eca-768745ed7b5a"
+version = "6.10.2+1"
 
-    [deps.QuadGK.weakdeps]
-    Enzyme = "7da242da-08ed-463a-9acd-ee780be4f1d9"
+[[deps.Qt6Svg_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Qt6Base_jll"]
+git-tree-sha1 = "81587ff5ff25a4e1115ce191e36285ede0334c9d"
+registries = "General"
+uuid = "6de9746b-f93d-5813-b365-ba18ad4a9cf3"
+version = "6.10.2+0"
+
+[[deps.Qt6Wayland_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Qt6Base_jll", "Qt6Declarative_jll"]
+git-tree-sha1 = "672c938b4b4e3e0169a07a5f227029d4905456f2"
+registries = "General"
+uuid = "e99dba38-086e-5de3-a5b1-6e4c66e897c3"
+version = "6.10.2+1"
 
 [[deps.REPL]]
 deps = ["Base64", "Dates", "FileWatching", "InteractiveUtils", "JuliaSyntaxHighlighting", "Markdown", "Sockets", "StyledStrings", "Unicode"]
@@ -1704,25 +1613,12 @@ registries = "General"
 uuid = "ae029012-a4dd-5104-9daa-d747884805df"
 version = "1.3.1"
 
-[[deps.Revise]]
-deps = ["CRC32c", "CodeTracking", "FileWatching", "JuliaInterpreter", "LibGit2", "LoweredCodeUtils", "OrderedCollections", "Preferences", "REPL", "Serialization", "UUIDs"]
-git-tree-sha1 = "da47b1bd8be0a3f80073d9b8bf0c614a3c474d58"
-registries = "General"
-uuid = "295af30f-e4ad-537b-8983-00126c2a3abe"
-version = "3.18.0"
-
-    [deps.Revise.extensions]
-    DistributedExt = "Distributed"
-
-    [deps.Revise.weakdeps]
-    Distributed = "8ba89e20-285c-5b6f-9357-94700520ee1b"
-
 [[deps.Roots]]
 deps = ["Accessors", "CommonSolve", "Printf"]
-git-tree-sha1 = "3eff988b9bd09543783e2e051b0a1eef11f65c2d"
+git-tree-sha1 = "15f266d7b3039ca0608d2c53bb32225b96932310"
 registries = "General"
 uuid = "f2b01f46-fcfa-551c-844a-d8ac1e96c665"
-version = "2.3.0"
+version = "3.0.14"
 
     [deps.Roots.extensions]
     RootsChainRulesCoreExt = "ChainRulesCore"
@@ -1762,12 +1658,6 @@ registries = "General"
 uuid = "992d4aef-0814-514b-bc4d-f2e9a6c4116f"
 version = "1.1.1"
 
-[[deps.SimpleBufferStream]]
-git-tree-sha1 = "f305871d2f381d21527c770d4788c06c097c9bc1"
-registries = "General"
-uuid = "777ac1f9-54b0-4bf8-805c-2214025038e7"
-version = "1.2.0"
-
 [[deps.Sockets]]
 uuid = "6462fe0b-24de-5631-8697-dd941f90decc"
 version = "1.11.0"
@@ -1786,10 +1676,10 @@ version = "1.13.0"
 
 [[deps.SpecialFunctions]]
 deps = ["IrrationalConstants", "LogExpFunctions", "OpenLibm_jll", "OpenSpecFun_jll"]
-git-tree-sha1 = "88ef0d98204515bc53dd4aaea5f7788882d1b66c"
+git-tree-sha1 = "d1a08b3cb5d1470a2b6dc98ba644f1436d5a740f"
 registries = "General"
 uuid = "276daf66-3868-5448-9aa4-cd146d93841b"
-version = "2.9.1"
+version = "2.9.2"
 
     [deps.SpecialFunctions.extensions]
     SpecialFunctionsChainRulesCoreExt = "ChainRulesCore"
@@ -1852,10 +1742,10 @@ version = "0.34.13"
 
 [[deps.StructUtils]]
 deps = ["Dates", "UUIDs"]
-git-tree-sha1 = "b04bfab37484defe300b2f9ed64469abab2431ff"
+git-tree-sha1 = "d9cfc07e1d1a8985aa9d03870d642b5d7ab2cf33"
 registries = "General"
 uuid = "ec057cc2-7a8d-4b58-b3b3-92acb9f63b42"
-version = "2.12.0"
+version = "2.12.1"
 
     [deps.StructUtils.extensions]
     StructUtilsDBInterfaceExt = ["DBInterface", "Tables"]
@@ -1904,12 +1794,6 @@ deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
 uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 version = "1.11.0"
 
-[[deps.TranscodingStreams]]
-git-tree-sha1 = "0c45878dcfdcfa8480052b6ab162cdd138781742"
-registries = "General"
-uuid = "3bb67fe8-82b1-5028-8e26-92a6c54297fa"
-version = "0.11.3"
-
 [[deps.Tricks]]
 git-tree-sha1 = "311349fd1c93a31f783f977a71e8b062a57d4101"
 registries = "General"
@@ -1944,27 +1828,6 @@ git-tree-sha1 = "53915e50200959667e78a92a418594b428dffddf"
 registries = "General"
 uuid = "1cfade01-22cf-5700-b092-accc4b62d6e1"
 version = "0.4.1"
-
-[[deps.Unitful]]
-deps = ["Dates", "LinearAlgebra", "Random"]
-git-tree-sha1 = "6258d453843c466d84c17a58732dda5deeb8d3af"
-registries = "General"
-uuid = "1986cc42-f94f-5a68-af5c-568840ba703d"
-version = "1.24.0"
-weakdeps = ["ConstructionBase", "ForwardDiff", "InverseFunctions", "Printf"]
-
-    [deps.Unitful.extensions]
-    ConstructionBaseUnitfulExt = "ConstructionBase"
-    ForwardDiffExt = "ForwardDiff"
-    InverseFunctionsUnitfulExt = "InverseFunctions"
-    PrintfExt = "Printf"
-
-[[deps.UnitfulLatexify]]
-deps = ["LaTeXStrings", "Latexify", "Unitful"]
-git-tree-sha1 = "af305cc62419f9bd61b6644d19170a4d258c7967"
-registries = "General"
-uuid = "45397f5d-5981-4c77-b2b3-fc36d6e9b728"
-version = "1.7.0"
 
 [[deps.Unzip]]
 git-tree-sha1 = "ca0969166a028236229f63514992fc073799bb78"
