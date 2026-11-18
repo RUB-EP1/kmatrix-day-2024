@@ -38,7 +38,7 @@ end;
 # ╔═╡ c9520a96-5001-4e1a-9b33-b370030e66dd
 begin
 	const s0_scatt = -3.92637
-	const s0_prod = -3.0
+	const s0_prod = -0.07 # as in Laura++ B3piKMatrixCoeff.dat (hep-ex/0804.2089)
 	const m0sq = 1.0
 	const sA = 1.0
 	const sA0 = -0.15
