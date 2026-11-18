@@ -42,6 +42,7 @@ jobs:
         run: |
           tar xf artifact.tar
           rm artifact.tar
+          touch .nojekyll
       - name: Configure Git credentials
         run: |
           git config --global user.name "GitHub Action"
