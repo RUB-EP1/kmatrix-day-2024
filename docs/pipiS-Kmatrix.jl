@@ -275,6 +275,57 @@ let
 	plot!()
 end
 
+# ╔═╡ 76a0969e-c4eb-4b2f-bb9a-304419ed40ba
+md"""
+### Cross-check with Laura++
+
+The function below transcribes the $\hat{T}$ computation of Laura++ (`LauKMatrixPropagator::getTHat`) with the constants of `LauConstants.hh` and the parameters of its `B3piKMatrixCoeff.dat` file, which are the values of [hep-ex/0804.2089](https://arxiv.org/abs/0804.2089) (Table I) used in this notebook. The comparison leaves out the $\chi_{c0}$ pole. The notebook rounds the meson masses, so the two differ by up to about 1% right at the $K\bar{K}$ threshold; with identical masses they agree to $10^{-5}$.
+"""
+
+# ╔═╡ e1d329a3-24f3-4ba2-943f-6de9790be5a5
+laura_T̂11 = let
+	# Transcription of Laura++ `LauKMatrixPropagator::getTHat` for the ππ S-wave,
+	# with the constants of `LauConstants.hh` and the parameters of
+	# `examples/B3piKMatrixCoeff.dat` (hep-ex/0804.2089, Table I).
+	mπ, mK, mη, mη′ = 0.13957039, 0.493677, 0.547862, 0.95778
+	poles = [
+		(0.65100, [0.22889, -0.55377, 0.0, -0.39899, -0.34639]),
+		(1.20360, [0.94128, 0.55095, 0.0, 0.39065, 0.31503]),
+		(1.55817, [0.36856, 0.23888, 0.55639, 0.18340, 0.18681]),
+		(1.21000, [0.33650, 0.40907, 0.85679, 0.19906, -0.00984]),
+		(1.82206, [0.18171, -0.17558, -0.79658, -0.00355, 0.22358])]
+	f1 = [0.23399, 0.15044, -0.20545, 0.32825, 0.35412]
+	mSq0, s0Scatt, sA, sA0 = 1.0, -3.92637, 1.0, -0.15
+	# phase space: sqrt(1 - Σ²/s), continued as i*sqrt(Σ²/s - 1) below threshold
+	ρ2(s, Σ²) = (x = 1 - Σ² / s; x < 0 ? im * sqrt(-x) : complex(sqrt(x)))
+	function ρ4π(s)
+		s > 1 && return complex(sqrt(1 - 16mπ^2 / s))
+		r = ((1.07885s + 0.13655)s - 0.29744)s - 0.20840
+		r = ((r * s + 0.13851)s - 0.01933)s + 0.00051
+		complex(max(r, 0.0))
+	end
+	function (s)
+		K = sum(g * g' / (M^2 - s) for (M, g) in poles)
+		K[1, :] .+= f1 * (mSq0 - s0Scatt) / (s - s0Scatt)
+		K[2:end, 1] .= K[1, 2:end]
+		K .*= (s - sA * mπ^2 / 2) * (1 - sA0) / (s - sA0)
+		ρ = Diagonal([ρ2(s, 4mπ^2), ρ2(s, 4mK^2), ρ4π(s), ρ2(s, 4mη^2), ρ2(s, (mη + mη′)^2)])
+		((I - im * K * ρ) \ K)[1, 1]
+	end
+end
+
+# ╔═╡ 7609fca7-377f-465d-98dd-f91d38aaa88a
+let
+	T5 = Tmatrix(Kmatrix(model.T.K.poles[1:5], model.T.K.nonpoles), model.T.channels)
+	ms = range(2mπ + 0.0005, 3.0005, length=2000) # avoid hitting bare poles exactly
+	T_nb = [amplitude(T5, m)[1, 1] for m in ms]
+	T_lau = [laura_T̂11(m^2) for m in ms]
+	plot(layout=grid(2, 1, heights=(0.7, 0.3)), size=(700, 500), link=:x)
+	plot!(ms, abs2.(T_nb), sp=1, lab="this notebook", ylab="|T₁₁|²", xlab="")
+	plot!(ms, abs2.(T_lau), sp=1, lab="Laura++", ls=:dash)
+	plot!(ms, abs.(T_nb .- T_lau) ./ abs.(T_lau), sp=2, yscale=:log10, ylab="rel. diff.")
+end
+
 # ╔═╡ f793c9ea-aa2b-4184-a228-bc5562fe4242
 let N = length(model.T.K.poles)
 	plot(layout=grid(N,1), size=(700,600), xlab="")
@@ -1670,6 +1721,9 @@ version = "1.4.1+1"
 # ╠═b155df67-f198-41db-b7a3-d361a66feb07
 # ╠═49974f75-2d9a-4300-912b-9928b51816a7
 # ╠═e73cd265-119f-40a5-89d0-b22c755977e8
+# ╟─76a0969e-c4eb-4b2f-bb9a-304419ed40ba
+# ╠═e1d329a3-24f3-4ba2-943f-6de9790be5a5
+# ╠═7609fca7-377f-465d-98dd-f91d38aaa88a
 # ╠═f793c9ea-aa2b-4184-a228-bc5562fe4242
 # ╟─a9a2a6a2-2b0c-4dcf-b4a1-2c35ca98b631
 # ╠═194a54b3-ea8f-4704-a2fe-6a6947f453da
