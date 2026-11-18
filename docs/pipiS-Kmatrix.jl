@@ -149,7 +149,7 @@ begin
 	#
 	function amplitude(K::Kmatrix, m)
 	    pole_part = sum((gs * gs') ./ (M^2 - m^2) for (M, gs) in K.poles)
-		non_pole_part = (1-s0_scatt) / (m^2-s0_scatt) * K.nonpoles
+		non_pole_part = (m0sq-s0_scatt) / (m^2-s0_scatt) * K.nonpoles
 		fA0 = (1-sA0)/(m^2-sA0)*(m^2-mπ^2/2)
 		(pole_part + non_pole_part) * fA0
 	end
