@@ -39,7 +39,6 @@ html_favicon = "_static/favicon.ico"
 html_js_files = [
     "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js",
 ]
-html_logo = "https://github.com/mmikhasenko/kmatrix-day-2024/assets/29308176/1a9db3dc-9398-4c7f-95f2-e46e68809a4d"
 html_static_path = ["_static"]
 html_theme = "sphinx_book_theme"
 html_theme_options = {
@@ -69,12 +68,6 @@ html_theme_options = {
             "name": "Ruhr University Bochum",
             "type": "url",
             "url": "https://www.ruhr-uni-bochum.de",
-        },
-        {
-            "icon": "https://mmikhasenko.github.io/agmikhasenko/logo/ep1mikhasenko_logo_small.svg",
-            "name": "Ruhr University Bochum",
-            "type": "url",
-            "url": "https://mmikhasenko.github.io/agmikhasenko",
         },
         {
             "icon": "https://compwa.github.io/_static/favicon.ico",
