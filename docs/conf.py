@@ -1,6 +1,8 @@
+# cspell:ignore kmatrix
+
+import shutil
 from glob import glob
 from pathlib import Path
-import shutil
 
 
 def copy_julia_html_page() -> None:
@@ -21,6 +23,9 @@ copy_julia_html_page()
 codeautolink_concat_default = True
 exclude_patterns = [
     "**.ipynb_checkpoints",
+    "**AGENTS.md",
+    "**CLAUDE.md",
+    "**GEMINI.md",
     "*build",
 ]
 extensions = [
@@ -99,13 +104,14 @@ intersphinx_mapping = {
     "IPython": ("https://ipython.readthedocs.io/en/9.0.2", None),
     "ipywidgets": ("https://ipywidgets.readthedocs.io/en/8.1.5", None),
     "matplotlib": ("https://matplotlib.org/3.10.0", None),
-    "numba": ("https://numba.readthedocs.io/en/0.60.0", None),
     "numpy": ("https://numpy.org/doc/1.26", None),
     "plotly": ("https://plotly.com/python-api-reference/", None),
     "python": ("https://docs.python.org/3.12", None),
     "sympy": ("https://docs.sympy.org/latest", None),
 }
+myst_colon_fence_exact_match = True
 myst_enable_extensions = [
+    "alert",
     "amsmath",
     "colon_fence",
     "dollarmath",

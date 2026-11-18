@@ -31,7 +31,7 @@ end
 begin
 	const mπ = 0.13957
 	const mK = 0.49368
-	const mη = 0.54786 
+	const mη = 0.54786
 	const mη′ = 0.95778
 end;
 
@@ -111,7 +111,7 @@ md"""
 begin
 	struct RhoRho <: AbstractChannel end
 	function ρ(ch::RhoRho, m::Real; ϕ=-π / 2)
-		s = m^2 
+		s = m^2
 		s > 1.0 ? sqrt(1-16mπ^2/s) :
 			1.0789s^6 + 0.1366s^5 − 0.2974s^4 − 0.2084s^3 + 0.1385s^2 − 0.0193s + 0.0005
 	end
@@ -137,7 +137,7 @@ begin
 	    poles::SVector{V,NamedTuple{(:M, :gs),Tuple{Float64,SVector{N,Float64}}}}
 	    nonpoles::SMatrix{N,N,Float64}
 	end
-	function Kmatrix(_poles, _nonpoles = 
+	function Kmatrix(_poles, _nonpoles =
 				fill(0.0, (length(first(_poles).gs), length(first(_poles).gs))))
 		V, N = length(_poles), length(first(_poles).gs)
 		poles = map(_poles) do p
@@ -147,13 +147,13 @@ begin
 		return Kmatrix(poles, nonpoles)
 	end
 	#
-	function amplitude(K::Kmatrix, m)		
+	function amplitude(K::Kmatrix, m)
 	    pole_part = sum((gs * gs') ./ (M^2 - m^2) for (M, gs) in K.poles)
 		non_pole_part = (1-s0_scatt) / (m^2-s0_scatt) * K.nonpoles
 		fA0 = (1-sA0)/(m^2-sA0)*(m^2-mπ^2/2)
 		(pole_part + non_pole_part) * fA0
 	end
-	# 
+	#
 	npoles(X::Kmatrix{N,V}) where {N,V} = V
 	nchannels(X::Kmatrix{N,V}) where {N,V} = N
 	#
@@ -183,10 +183,10 @@ begin
 	nchannels(X::ProductionAmplitude{N,V}) where {N,V} = N
 	detD(X::ProductionAmplitude, m; ϕ=-π / 2) = detD(X.T, m; ϕ)
 	channels(X::ProductionAmplitude) = channels(X.T)
-	# 
+	#
 	ProductionAmplitude(T::Tmatrix{N,V}) where {N,V} =
 	    ProductionAmplitude(T, SVector{V}(ones(V)), SVector{N}(ones(N)))
-	# 
+	#
 	function amplitude(A::ProductionAmplitude, m; ϕ=-π / 2)
 	    @unpack T, αpoles, αnonpoles = A
 	    P = αnonpoles * (m0sq-s0_prod) / (m^2-s0_prod)
@@ -205,7 +205,7 @@ begin
 	    K::Kmatrix{N,V}
 	    channels::SVector{N,X}
 	end
-	#	
+	#
 	function Dmatrix(T::Tmatrix{N,V}, m; ϕ=-π / 2) where {N,V}
 	    𝕀 = Matrix(I, (N, N))
 	    iρv = 1im .* ρ.(T.channels, m; ϕ) .* 𝕀
@@ -214,7 +214,7 @@ begin
 	end
 	detD(T::Tmatrix, m; ϕ=-π / 2) = det(Dmatrix(T, m; ϕ))
 	amplitude(T::Tmatrix, m; ϕ=-π / 2) = inv(Dmatrix(T, m; ϕ)) * amplitude(T.K, m)
-	# 
+	#
 	npoles(X::Tmatrix{N,V}) where {N,V} = V
 	nchannels(X::Tmatrix{N,V}) where {N,V} = N
 	channels(X::Tmatrix) = X.channels
@@ -243,10 +243,10 @@ model = let
 		0.23399 0.15044 -0.20545 0.32825 0.35412
 		fill(0,(4,5))
 	] |> Symmetric
-	# 
+	#
 	K = Kmatrix(MG, f_scatt)
 	T = Tmatrix(K, channels)
-	# 
+	#
 	ProductionAmplitude(T, SVector(zeros(length(MG))...), SVector(0,0,0,0,0.0))
 end;
 

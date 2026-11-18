@@ -1,6 +1,18 @@
 _build/
 .ipynb_checkpoints/
+.lycheecache
 .pixi/
+.venv/
 .virtual_documents/
+*.egg-info/
 *.html
 pluto_export.json
+
+# Agent tooling
+.agents/
+.claude/
+.codex/
+.gemini/
+AGENTS.md
+CLAUDE.md
+GEMINI.md
