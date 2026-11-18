@@ -63,7 +63,7 @@ $\Gamma \sim \frac{1}{2m}\bigg(
 # ╔═╡ a9a2a6a2-2b0c-4dcf-b4a1-2c35ca98b631
 md"""
 ### Cusp at low energy
-is related to the pseudothreshold of $\eta\eta'$. One finds that the phase space function is real again below the pseudothreshold.
+is related to the pseudothreshold of $\eta\eta'$ at $s=(m_{\eta'}-m_\eta)^2$: the phase-space factor $\rho = \sqrt{(1-(m_\eta+m_{\eta'})^2/s)(1-(m_{\eta'}-m_\eta)^2/s)}$ becomes real again below it. Following [Anisovich and Sarantsev](https://arxiv.org/abs/hep-ph/0204328) and Laura++, the model sets the mass-difference factor to unity for the $\eta\eta'$ channel, which removes the cusp. Analytic continuation of that factor below threshold is not well defined, since it corresponds to a $t$- or $u$-channel crossing.
 """
 
 # ╔═╡ 4f80b018-f810-11ee-141e-1be227dfce41
@@ -90,14 +90,19 @@ begin
 	    m1::Complex{Float64}
 	    m2::Complex{Float64}
 	    L::Int
+	    pseudothreshold::Bool
 	end
-	TwoBodyChannel(m1, m2; L::Int=0) = TwoBodyChannel(m1, m2, L)
+	TwoBodyChannel(m1, m2; L::Int=0, pseudothreshold::Bool=true) =
+	    TwoBodyChannel(m1, m2, L, pseudothreshold)
 	#
 	function ρ(ch::TwoBodyChannel, m; ϕ=-π / 2)
 	    ch.L != 0 && error("not implemented")
+	    # with pseudothreshold=false, the factor 1-(m1-m2)^2/s is set to unity
+	    # (Anisovich, Sarantsev, hep-ph/0204328; Laura++ `calcEtaEtaPRho`)
+	    pseudo = ch.pseudothreshold ? sqrt(m^2 - (ch.m1 - ch.m2)^2) : m
 	    sqrt(cis(ϕ) * (m - (ch.m1 + ch.m2))) * cis(-ϕ / 2) *
 	    sqrt(m + (ch.m1 + ch.m2)) *
-	    sqrt((m^2 - (ch.m1 - ch.m2)^2)) /
+	    pseudo /
 	    m^2
 	end
 end
@@ -228,7 +233,7 @@ model = let
 			TwoBodyChannel(mK, mK), # KK
 			RhoRho(), # 4π
 			TwoBodyChannel(mη, mη), # ηη
-	        TwoBodyChannel(mη, mη′)) # ηη′
+	        TwoBodyChannel(mη, mη′; pseudothreshold=false)) # ηη′, as in Laura++
 	# five bare pole
 	MG = [
 		(M=0.65100, gs = [0.22889, -0.55377,  0.00000, -0.39899, -0.34639]),
