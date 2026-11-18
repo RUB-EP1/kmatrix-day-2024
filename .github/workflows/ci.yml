@@ -26,6 +26,40 @@ jobs:
       id-token: write
     with:
       gh-pages: true
+  pr-preview:
+    name: Push PR preview
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    needs:
+      - doc
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: github-pages
+      - name: Extract artifact
+        run: |
+          tar xf artifact.tar
+          rm artifact.tar
+          touch .nojekyll
+      - name: Configure Git credentials
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Initialize repository and commit results
+        run: |
+          git init
+          git checkout --orphan gh-pages
+          git add -A
+          git commit -m "Push preview for https://github.com/RUB-EP1/kmatrix-day-2024/pull/${{ github.event.number }}"
+      - name: Push results to GitHub Pages
+        run: |
+          git remote add origin https://x-access-token:${{ secrets.PAT }}@github.com/RUB-EP1/kmatrix-day-2024-pr-preview
+          git push origin gh-pages --force
+      - name: Show notice with link to PR preview
+        run: echo "Documentation preview available on [rub-ep1.github.io/kmatrix-day-2024-pr-preview](https://rub-ep1.github.io/kmatrix-day-2024-pr-preview)" >> $GITHUB_STEP_SUMMARY
+
   style:
     secrets:
       token: ${{ secrets.PAT }}
