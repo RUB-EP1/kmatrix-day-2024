@@ -158,6 +158,28 @@ f_{A0}(s) = \frac{1-s_{A0}}{s-s_{A0}} \left(s-\frac{m_\pi^2}{2}\right)
 ```
 """
 
+# ╔═╡ 4008e19f-4b87-4889-a641-216ac0765e06
+md"""
+#### Conventions in the literature
+
+The literature writes this K-matrix in several ways that look inconsistent ([#17](https://github.com/RUB-EP1/kmatrix-day-2024/issues/17)). In the notation above, with $m_0^2 = 1\,\mathrm{GeV}^2$, the four common forms are:
+
+| Source | Background term | Adler-zero factor |
+| :-- | :-- | :-- |
+| [Anisovich and Sarantsev](https://arxiv.org/abs/hep-ph/0204328) | $f_{ij}\,\frac{m_0^2+s_0}{s+s_0}$ | $\frac{s-s_A}{s+s_{A0}}$ |
+| [FOCUS](https://arxiv.org/abs/hep-ex/0312040) | $f_{ij}\,\frac{m_0^2-s_0}{s-s_0}$ | $\frac{s-s_A m_\pi^2/2}{(s-s_{A0})(1-s_{A0})}$ |
+| [Laura++](https://arxiv.org/abs/1711.09854) | $f_{ij}\,\frac{m_0^2-s_0}{s-s_0}$ | $\frac{m_0^2-s_{A0}}{s-s_{A0}}\left(s-\frac{1}{2}s_A m_\pi^2\right)$ |
+| [LHCb](https://arxiv.org/abs/1909.05212) | $f_{ij}\,\frac{m_0^2+s_0}{s+s_0}$ | $\frac{m_0^2-s_{A0}}{s-s_{A0}}\left(s-\frac{1}{2}m_\pi^2\right)$ |
+
+Most of the differences are conventions that leave the amplitude unchanged once the parameters follow them:
+
+- **Sign of $s_0$ and $s_{A0}$.** Anisovich–Sarantsev and LHCb write $s+s_0$, FOCUS and Laura++ write $s-s_0$. The same physics therefore needs $s_0^\text{scatt} = +3.92637$ in the first convention and $-3.92637$ in the second; the same holds for $s_{A0} = \pm 0.15$.
+- **Units of $s_A$.** Anisovich–Sarantsev quote the Adler zero $s_A$ directly in GeV², FOCUS and Laura++ in units of $m_\pi^2/2$ (so $s_A=1$), and LHCb fixes it to $m_\pi^2/2$. All place the zero at $s = m_\pi^2/2$.
+- **Normalization of $f_{A0}$.** A constant factor in front of $\hat{K}$ can be absorbed into the couplings, with $g_i^\alpha \to g_i^\alpha/\sqrt{c}$ and $f_{ij} \to f_{ij}/c$. Laura++ and LHCb include the factor $m_0^2-s_{A0}$ in the numerator, which normalizes $f_{A0}$ to $s-m_\pi^2/2$ at $s=m_0^2$. Anisovich–Sarantsev omit it. FOCUS prints $1-s_{A0}$ in the denominator, which differs from Laura++ by $(1-s_{A0})^2 \approx 1.32$ for $s_{A0}=-0.15$.
+
+The normalization matters in practice: the fitted couplings and background coefficients belong to one convention and cannot be copied to another without rescaling. This notebook uses the Laura++ form with the Laura++ signs ($s_0^\text{scatt}<0$, $s_{A0}<0$, $s_A=1$) and the parameters of [hep-ex/0804.2089](https://arxiv.org/abs/0804.2089), which were determined in that convention. The cross-check with Laura++ below confirms that the implementation follows it.
+"""
+
 # ╔═╡ c98d1106-3a79-4377-922b-8b73956be2ab
 begin
 	struct Kmatrix{N,V}
@@ -1780,6 +1802,7 @@ version = "1.4.1+1"
 # ╟─4d31c24a-b9ec-4dbe-8fdc-22c62d8ec3b6
 # ╟─50635ca3-242f-44f5-9cb2-3993da1fa835
 # ╟─bc99b07e-0342-4206-acc5-5a71330a80eb
+# ╟─4008e19f-4b87-4889-a641-216ac0765e06
 # ╟─c98d1106-3a79-4377-922b-8b73956be2ab
 # ╟─c9d89e6e-649b-4d6a-9bcd-3838c2a11e23
 # ╟─c8391608-efe9-48a5-8cdb-f58bcc37b63b
