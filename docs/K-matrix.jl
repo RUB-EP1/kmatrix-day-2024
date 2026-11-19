@@ -26,7 +26,9 @@ This educational material introduces the K-matrix formalism, focusing on its pra
 
 On the figure below one can find illustration of the ab->cd scattering process with resonance which has mass $m_{0}$ and width $Г_{0}$. This process can be described with K-matrix:
 
-$K_{ij} = \frac{g_i g_j}{m_0^2-s}$
+```math
+K_{ij} = \frac{g_i g_j}{m_0^2-s}
+```
 
 where $g_{i} g_j$ indicates different possible channels of the scattering process and $s=m^{2}$. K-matrix has to be real and symmetric by construction.
 
@@ -72,20 +74,24 @@ md"""
 
 Let's consider 3 coupled channels, the scattering amplitude T is a 3x3 matrix:
 
-$T = \begin{pmatrix}
+```math
+T = \begin{pmatrix}
 T_{1\to1} & T_{1\to2} & T_{1\to3}\\
 T_{2\to1} & T_{2\to2} & T_{2\to3}\\
 T_{3\to1} & T_{3\to2} & T_{3\to3}\\
-\end{pmatrix}$
+\end{pmatrix}
+```
 
 We model it with the simplest **one-pole** K-matrix.
 
-$K = \frac{1}{m_0^2-s}
+```math
+K = \frac{1}{m_0^2-s}
 \begin{pmatrix}
 g_1^2 & g_1 g_2 & g_1 g_3\\
 g_2 g_1 & g_2^2 & g_2 g_3\\
 g_3 g_1 & g_3 g_2 & g_3^2\\
-\end{pmatrix}$
+\end{pmatrix}
+```
 
 and $\rho=\text{Diag}(\rho_1,\rho_2,\rho_3)$
 """
@@ -114,7 +120,9 @@ md"""
 
 Let's compare to the BW parametrization
 
-$\text{BW} = \frac{m_0\Gamma_0}{m_0^2-s-im_0 \Gamma_0}$
+```math
+\text{BW} = \frac{m_0\Gamma_0}{m_0^2-s-im_0 \Gamma_0}
+```
 
 """
 
@@ -122,7 +130,9 @@ $\text{BW} = \frac{m_0\Gamma_0}{m_0^2-s-im_0 \Gamma_0}$
 md"""
 Cross section of certain channel calculated as
 
-$\frac{\mathrm{d}\sigma}{\mathrm{d}m} = \frac{1}{J_i} |T_{ij}|^2 \frac{\mathrm{d}\Phi_j}{\mathrm{d}m}$
+```math
+\frac{\mathrm{d}\sigma}{\mathrm{d}m} = \frac{1}{J_i} |T_{ij}|^2 \frac{\mathrm{d}\Phi_j}{\mathrm{d}m}
+```
 
 with
 - the flux $J_i$ set to 1, and
@@ -195,9 +205,7 @@ We can relate the approximate width to coupling using the Breit-Wigner expressio
 Hence
 
 ```math
-\begin{align}
-\Gamma_0 = \frac{g_1^2 \rho_1 (m_0) + g_2^2 \rho_2(m_0)+g_3^2 \rho_3(m_0)}{m_0}\\
-\end{align}
+\Gamma_0 = \frac{g_1^2 \rho_1 (m_0) + g_2^2 \rho_2(m_0)+g_3^2 \rho_3(m_0)}{m_0}
 ```
 """
 
@@ -253,7 +261,8 @@ md"""
 
 The K-matrix for such case consists of two terms:
 
-$K =K^{(1)}+K^{(2)}
+```math
+K =K^{(1)}+K^{(2)}
 = \frac{1}{m_{(1)}^2-s}
 \begin{pmatrix}
 g_1^2 & g_1 g_2\\
@@ -263,7 +272,8 @@ g_2 g_1 & g_2^2
 \begin{pmatrix}
 h_1^2 & h_1 h_2\\
 h_2 h_1 & h_2^2
-\end{pmatrix}$
+\end{pmatrix}
+```
 """
 
 # ╔═╡ 74e06991-79a2-4711-8bc7-c8656249641f
@@ -275,11 +285,13 @@ md"""
 Markdown.MD(Markdown.Admonition("danger", "Question", [md"""
 **E2.Q1:** Let's start with setting off-diagonal parameters described coupling to zeros $g_{2}=h_{1}=0$. Then K-matrix would be What would be
 
-$K =
+```math
+K =
 \begin{pmatrix}
 \frac{g_1^2}{m_{(1)}^2-s} & 0\\
 0 & \frac{h_2^2}{m_{(2)}^2-s}
-\end{pmatrix}$
+\end{pmatrix}
+```
 
 How will the T-matrix look like?
 """]))
@@ -287,12 +299,14 @@ How will the T-matrix look like?
 # ╔═╡ a223cbff-88b0-4a28-af53-c139e7b9108a
 Markdown.MD(Markdown.Admonition("warning", "Tip", [md"For single resonance:
 
-$T =
+```math
+T =
 \frac{1}{m_{(1)}^2-s-ig_1^2\rho_1-ig_2^2\rho_2}
 \begin{pmatrix}
 g_1^2 & g_1g_2\\
 g_2g_1 & g_2^2
-\end{pmatrix}$
+\end{pmatrix}
+```
 
 "]))
 
@@ -300,11 +314,13 @@ g_2g_1 & g_2^2
 answer_box(md"""
 In that case, the T-matrix would be simply:
 
-$T =
+```math
+T =
 \begin{pmatrix}
 \frac{g_1^2}{m_{(1)}^2-s-ig_1^2\rho_1} & 0\\
 0 & \frac{h_2^2}{m_{(2)}^2-s-ih_2^2\rho_2}
-\end{pmatrix}$
+\end{pmatrix}
+```
 """)
 
 # ╔═╡ 729c86ab-cf81-48bf-82be-b89cf28eaee6
@@ -351,7 +367,8 @@ Markdown.MD(Markdown.Admonition("danger", "Question", [md"""
 
 Then,
 
-$K^{(1)} = \frac{1}{m_{(1)}^2-s}
+```math
+K^{(1)} = \frac{1}{m_{(1)}^2-s}
 \begin{pmatrix}
 g_1^2 & g_1 \epsilon\\
 \epsilon g_1 & \epsilon^2
@@ -360,7 +377,8 @@ g_1^2 & g_1 \epsilon\\
 \begin{pmatrix}
 g_1^2 & g_1 \epsilon\\
 \epsilon g_1 & 0
-\end{pmatrix}$
+\end{pmatrix}
+```
 
 In this case the T-matrix will become:
 """]))
@@ -369,11 +387,13 @@ In this case the T-matrix will become:
 answer_box(md"""
 The T-matrix in that case would be:
 
-$T \approx
+```math
+T \approx
 \begin{pmatrix}
 \frac{g_1^2}{m_{(1)}^2-s-ig_1^2\rho_1} & \frac{g_1\epsilon}{m_{(1)}^2-s-ig_1^2\rho_1}\\
 \frac{\epsilon g_1}{m_{(1)}^2-s-ig_1^2\rho_1} & \frac{h_2^2}{m_{(2)}^2-s-ih_2^2\rho_2}
-\end{pmatrix}$
+\end{pmatrix}
+```
 
 One can notice that:
 
@@ -403,7 +423,9 @@ What will we see for the off-diagonal terms of T-matrix?
 # ╔═╡ 1e7ebcaf-dd83-40fb-9bd8-2e48a1911bfa
 answer_box(md"""
 
-$T_{12}=T_{21}=\frac{g_1\epsilon}{m_{(1)}^2-s-ig_1^2\rho_1}+\frac{h_2\epsilon}{m_{(2)}^2-s-ih_2^2\rho_2}=(BW_{g_{1}}+BW_{h_{2}})\epsilon$
+```math
+T_{12}=T_{21}=\frac{g_1\epsilon}{m_{(1)}^2-s-ig_1^2\rho_1}+\frac{h_2\epsilon}{m_{(2)}^2-s-ih_2^2\rho_2}=(BW_{g_{1}}+BW_{h_{2}})\epsilon
+```
 
 """)
 
@@ -437,10 +459,14 @@ end;
 md"""
 For this case K-matrix will become just a function of s:
 
-$K = \frac{g^2}{m_{(1)}^2-s}+
-\frac{h^2}{m_{(2)}^2-s}$
+```math
+K = \frac{g^2}{m_{(1)}^2-s}+
+\frac{h^2}{m_{(2)}^2-s}
+```
 
-$T = [1-iK\rho ]^{-1} K$
+```math
+T = [1-iK\rho ]^{-1} K
+```
 
 If K is zero for $s=s_\text{z}$, T is zero.
 """
@@ -488,11 +514,13 @@ md"""
 
 The difference between production and scattering is that now one replace K-matrix with vector:
 
-$A = [1-iK\rho]^{-1}
+```math
+A = [1-iK\rho]^{-1}
 \begin{pmatrix}
 \frac{\alpha_1 g}{m_{(1)}^2-s}\\
 \frac{\alpha_2 h}{m_{(2)}^2-s}
-\end{pmatrix}$
+\end{pmatrix}
+```
 
 Where $a_1$ and $a_2$ are production factors which might be complex.
 """

@@ -14,6 +14,17 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ d65d1d4f-ea80-47fc-a10d-2159fae1f5fb
+md"""
+# Coupled-channel K-matrix for the ππ S-wave
+
+## Introduction
+
+This notebook models elastic ππ scattering in the S-wave, the partial wave with zero orbital angular momentum. The model couples five channels: ππ, kaon–antikaon, an effective four-pion channel, ηη, and ηη′. Their thresholds enter the same scattering matrix, so the opening of another channel can change the elastic ππ line shape.
+
+The examples use the five-pole parameter set from [hep-ex/0804.2089](https://arxiv.org/abs/0804.2089) and explore an additional $\chi_{c0}$ pole. The notebook plots the two-body phase-space factors and the elastic intensity, compares the five-pole result with Laura++, and shows how each bare pole contributes when used as a production source.
+"""
+
 # ╔═╡ b38b74b5-04f0-4497-b66d-d47219fcbf2e
 begin
 	using StaticArrays
@@ -46,12 +57,16 @@ end;
 
 # ╔═╡ 9ca96d9a-f4ff-40bf-833f-995f8f39e271
 md"""
-### Including $\chi_{c0}$ to the spectrum as pole 6
+## Adding the χc₀ pole
 
-$\Gamma \sim \frac{1}{2m}\bigg(
+In a running Pluto session, the two sliders set the sixth pole's couplings to the ππ and ηη′ channels. The remaining couplings of this pole are set to zero. The width estimate below shows how each channel's contribution depends on its coupling squared and its phase-space factor.
+
+```math
+\Gamma \sim \frac{1}{2m}\bigg(
 |g_\text{other}|^2 \rho_{\text{other}}(s) +
 |g_{\pi\pi}|^2 \rho_{\pi\pi}(s)
-\bigg)$
+\bigg)
+```
 """
 
 # ╔═╡ b155df67-f198-41db-b7a3-d361a66feb07
@@ -62,8 +77,9 @@ $\Gamma \sim \frac{1}{2m}\bigg(
 
 # ╔═╡ a9a2a6a2-2b0c-4dcf-b4a1-2c35ca98b631
 md"""
-### Cusp at low energy
-is related to the pseudothreshold of $\eta\eta'$ at $s=(m_{\eta'}-m_\eta)^2$: the phase-space factor $\rho = \sqrt{(1-(m_\eta+m_{\eta'})^2/s)(1-(m_{\eta'}-m_\eta)^2/s)}$ becomes real again below it. Following [Anisovich and Sarantsev](https://arxiv.org/abs/hep-ph/0204328) and Laura++, the model sets the mass-difference factor to unity for the $\eta\eta'$ channel, which removes the cusp. Analytic continuation of that factor below threshold is not well defined, since it corresponds to a $t$- or $u$-channel crossing.
+## Cusp at low energy
+
+The low-energy cusp is related to the pseudothreshold of $\eta\eta'$ at $s=(m_{\eta'}-m_\eta)^2$: the phase-space factor $\rho = \sqrt{(1-(m_\eta+m_{\eta'})^2/s)(1-(m_{\eta'}-m_\eta)^2/s)}$ becomes real again below it. Following [Anisovich and Sarantsev](https://arxiv.org/abs/hep-ph/0204328) and Laura++, the model sets the mass-difference factor to unity for the $\eta\eta'$ channel, which removes the cusp. Analytic continuation of that factor below threshold is not well defined, since it corresponds to a $t$- or $u$-channel crossing.
 """
 
 # ╔═╡ 4f80b018-f810-11ee-141e-1be227dfce41
@@ -81,6 +97,8 @@ theme(:wong2, frame=:box, grid=false, minorticks=true,
 # ╔═╡ 7bc54d35-57db-440c-a7d1-5c259a4f33be
 md"""
 ### Phase space
+
+The diagonal phase-space matrix $\rho$ has one entry per channel. For a two-body channel, the threshold is the sum of the two particle masses. Below threshold the phase-space factor is continued to complex values. The plot below shows the effective four-pion phase-space factor separately.
 """
 
 # ╔═╡ 57674d38-b2b3-4586-a94b-28f61b711e10
@@ -128,12 +146,16 @@ plot(m->ρ(RhoRho(), m), 0.3, 3)
 # ╔═╡ 50635ca3-242f-44f5-9cb2-3993da1fa835
 md"""
 ### K-matrix
+
+Each bare pole contributes to the matrix through its couplings $g_i^\alpha$ to the different channels. The term proportional to $f_{ij}$ describes the smooth scattering background, and $f_{A0}$ supplies the Adler zero.
 """
 
 # ╔═╡ bc99b07e-0342-4206-acc5-5a71330a80eb
 md"""
-$\hat{K}_{ij}(s) = \left(\sum \frac{g_i^\alpha g_j^\alpha}{m_\alpha^2-s} + f_{ij} \frac{m_0^2-s_0^\text{scatt}}{s-s_0^\text{scatt}}\right) f_{A0}(s)\,, \quad
-f_{A0}(s) = \frac{1-s_{A0}}{s-s_{A0}} \left(s-s_{A0}\frac{m_\pi^2}{2}\right)$
+```math
+\hat{K}_{ij}(s) = \left(\sum_\alpha \frac{g_i^\alpha g_j^\alpha}{m_\alpha^2-s} + f_{ij} \frac{m_0^2-s_0^\text{scatt}}{s-s_0^\text{scatt}}\right) f_{A0}(s)\,, \quad
+f_{A0}(s) = \frac{1-s_{A0}}{s-s_{A0}} \left(s-\frac{m_\pi^2}{2}\right)
+```
 """
 
 # ╔═╡ c98d1106-3a79-4377-922b-8b73956be2ab
@@ -166,14 +188,18 @@ end;
 
 # ╔═╡ c9d89e6e-649b-4d6a-9bcd-3838c2a11e23
 md"""
-$T = [1-i\hat{K}\rho]^{-1}\hat{K}$
+```math
+T = [1-i\hat{K}\rho]^{-1}\hat{K}
+```
 """
 
 # ╔═╡ 91daa86b-6b44-4824-84f7-f874fa819391
 md"""
-$F = [1-i\hat{K}\rho]^{-1}\hat{P}\,,
+```math
+F = [1-i\hat{K}\rho]^{-1}\hat{P}\,,
 \qquad
-\hat{P}_v = \sum_\alpha \frac{\beta_\alpha g_v^\alpha}{m_α^2-s} + \frac{m_0^2-s_0^\text{prod}}{s-s_0^\text{prod}} f_v^\text{prod}$
+\hat{P}_v = \sum_\alpha \frac{\beta_\alpha g_v^\alpha}{m_α^2-s} + \frac{m_0^2-s_0^\text{prod}}{s-s_0^\text{prod}} f_v^\text{prod}
+```
 """
 
 # ╔═╡ 6f819dd6-1a62-430a-bd6d-5544cd1fc016
@@ -255,6 +281,13 @@ model = let
 	ProductionAmplitude(T, SVector(zeros(length(MG))...), SVector(0,0,0,0,0.0))
 end;
 
+# ╔═╡ b6ab1062-4d6d-4345-b9c5-9a2c317bc2db
+md"""
+## Phase space and elastic intensity
+
+The first plot shows the real parts of the two-body phase-space factors as functions of the invariant mass $m = \sqrt{s}$. The second plot shows $|T_{11}|^2$, where index 1 denotes ππ. Its vertical lines mark the two-body thresholds.
+"""
+
 # ╔═╡ 194a54b3-ea8f-4704-a2fe-6a6947f453da
 let
 	plot()
@@ -325,6 +358,13 @@ let
 	plot!(ms, abs2.(T_lau), sp=1, lab="Laura++", ls=:dash)
 	plot!(ms, abs.(T_nb .- T_lau) ./ abs.(T_lau), sp=2, yscale=:log10, ylab="rel. diff.")
 end
+
+# ╔═╡ 120ff702-11fd-40bb-869e-ee16311665d4
+md"""
+### Production from individual poles
+
+Each panel sets one pole's production coefficient to unity and the other production coefficients to zero. It shows the resulting ππ intensity $|F_1|^2$ as a function of $s$ in GeV². All poles and channels still enter the common rescattering matrix, so each panel includes their effect on the selected source.
+"""
 
 # ╔═╡ f793c9ea-aa2b-4184-a228-bc5562fe4242
 let N = length(model.T.K.poles)
@@ -1714,6 +1754,7 @@ version = "1.4.1+1"
 """
 
 # ╔═╡ Cell order:
+# ╟─d65d1d4f-ea80-47fc-a10d-2159fae1f5fb
 # ╟─48ef77e4-ad88-49b6-83ab-06e949186782
 # ╟─fe359958-cafc-4916-9d34-013dc955746a
 # ╟─c9520a96-5001-4e1a-9b33-b370030e66dd
@@ -1724,8 +1765,10 @@ version = "1.4.1+1"
 # ╟─76a0969e-c4eb-4b2f-bb9a-304419ed40ba
 # ╟─e1d329a3-24f3-4ba2-943f-6de9790be5a5
 # ╟─7609fca7-377f-465d-98dd-f91d38aaa88a
+# ╟─120ff702-11fd-40bb-869e-ee16311665d4
 # ╟─f793c9ea-aa2b-4184-a228-bc5562fe4242
 # ╟─a9a2a6a2-2b0c-4dcf-b4a1-2c35ca98b631
+# ╟─b6ab1062-4d6d-4345-b9c5-9a2c317bc2db
 # ╟─194a54b3-ea8f-4704-a2fe-6a6947f453da
 # ╟─4f80b018-f810-11ee-141e-1be227dfce41
 # ╟─b38b74b5-04f0-4497-b66d-d47219fcbf2e
