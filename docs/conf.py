@@ -1,4 +1,4 @@
-# cspell:ignore kmatrix
+# cspell:ignore Ilya kmatrix Misha Segal
 
 import shutil
 from glob import glob
@@ -20,6 +20,7 @@ ORGANIZATION = "RUB-EP1"
 REPO_NAME = "kmatrix-day-2024"
 copy_julia_html_page()
 
+author = "Misha Mikhasenko, Lena Pöpping, Ilya Segal, Remco de Boer"
 codeautolink_concat_default = True
 exclude_patterns = [
     "**.ipynb_checkpoints",
