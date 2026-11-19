@@ -102,6 +102,9 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3.12", None),
     "sympy": ("https://docs.sympy.org/latest", None),
 }
+# Plotly's notebook renderer embeds this MathJax build in each figure; a different
+# version loaded by Sphinx conflicts with it and leaves the equations unrendered.
+mathjax_path = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"
 myst_colon_fence_exact_match = True
 myst_enable_extensions = [
     "alert",
