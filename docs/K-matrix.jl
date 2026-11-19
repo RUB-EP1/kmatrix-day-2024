@@ -1,6 +1,9 @@
 ### A Pluto.jl notebook ###
 # v1.1.0
 
+#> [frontmatter]
+#> title = "Practical K-Matrix Applications"
+
 using Markdown
 using InteractiveUtils
 
@@ -20,11 +23,15 @@ end
 md"""
 # Practical K-Matrix Applications
 
+## Introduction
+
 This educational material introduces the K-matrix formalism, focusing on its practical application in describing scattering amplitude observables. The K-matrix approach provides a robust framework for analyzing scattering processes, essential for understanding resonance phenomena in hadron physics. One of the main challenges in employing this formalism lies in the initial estimation of the bare parameters, which requires a thorough comprehension of the underlying principles and mechanics of the model.
 
 On the figure below one can find illustration of the ab->cd scattering process with resonance which has mass $m_{0}$ and width $Г_{0}$. This process can be described with K-matrix:
 
-$K_{ij} = \frac{g_i g_j}{m_0^2-s}$
+```math
+K_{ij} = \frac{g_i g_j}{m_0^2-s}
+```
 
 where $g_{i} g_j$ indicates different possible channels of the scattering process and $s=m^{2}$. K-matrix has to be real and symmetric by construction.
 
@@ -70,33 +77,37 @@ md"""
 
 Let's consider 3 coupled channels, the scattering amplitude T is a 3x3 matrix:
 
-$T = \begin{pmatrix}
+```math
+T = \begin{pmatrix}
 T_{1\to1} & T_{1\to2} & T_{1\to3}\\
 T_{2\to1} & T_{2\to2} & T_{2\to3}\\
 T_{3\to1} & T_{3\to2} & T_{3\to3}\\
-\end{pmatrix}$
+\end{pmatrix}
+```
 
 We model it with the simplest **one-pole** K-matrix.
 
-$K = \frac{1}{m_0^2-s}
+```math
+K = \frac{1}{m_0^2-s}
 \begin{pmatrix}
 g_1^2 & g_1 g_2 & g_1 g_3\\
 g_2 g_1 & g_2^2 & g_2 g_3\\
 g_3 g_1 & g_3 g_2 & g_3^2\\
-\end{pmatrix}$
+\end{pmatrix}
+```
 
 and $\rho=\text{Diag}(\rho_1,\rho_2,\rho_3)$
 """
 
 # ╔═╡ 1215bc85-4760-473b-93d0-5d6a8952e27e
-question_box(md"""
+Markdown.MD(Markdown.Admonition("danger", "Question", [md"""
 **E1.Q1:** When $K$ is degenerate and has rank 1, the expression for T is simple. Figure it out for 3x3 matrix.
 
 **Advanced option:** Can you prove it for general case?
-""")
+"""]))
 
 # ╔═╡ 7b717c8f-1fb8-4892-a250-c77e5e088445
-aside(tip(md"$T = [1-iK\rho]^{-1}K$"))
+aside(Markdown.MD(Markdown.Admonition("warning", "Tip", [md"$T = [1-iK\rho]^{-1}K$"])))
 
 # ╔═╡ 1273bd41-9986-4b9f-9e06-b3bed7ab65f0
 answer_box(
@@ -108,11 +119,13 @@ This is expression known as the [Flatte formula](https://inspirehep.net/literatu
 # ╔═╡ 6d5acd0c-dbcf-4d0a-a94c-76ac59006fc8
 md"""
 
-## Comparison to Breit-Wigner
+### Comparison to Breit-Wigner
 
 Let's compare to the BW parametrization
 
-$\text{BW} = \frac{m_0\Gamma_0}{m_0^2-s-im_0 \Gamma_0}$
+```math
+\text{BW} = \frac{m_0\Gamma_0}{m_0^2-s-im_0 \Gamma_0}
+```
 
 """
 
@@ -120,7 +133,9 @@ $\text{BW} = \frac{m_0\Gamma_0}{m_0^2-s-im_0 \Gamma_0}$
 md"""
 Cross section of certain channel calculated as
 
-$\frac{\mathrm{d}\sigma}{\mathrm{d}m} = \frac{1}{J_i} |T_{ij}|^2 \frac{\mathrm{d}\Phi_j}{\mathrm{d}m}$
+```math
+\frac{\mathrm{d}\sigma}{\mathrm{d}m} = \frac{1}{J_i} |T_{ij}|^2 \frac{\mathrm{d}\Phi_j}{\mathrm{d}m}
+```
 
 with
 - the flux $J_i$ set to 1, and
@@ -176,9 +191,9 @@ let
 end
 
 # ╔═╡ 59ceb096-1cc0-4c69-b56f-476710dd698e
-question_box(md"""
+Markdown.MD(Markdown.Admonition("danger", "Question", [md"""
 **E1.Q2:** Which parameter is needed to be changed in order to see difference between BW and K-matrix formalism?
-""")
+"""]))
 
 # ╔═╡ 1410b82a-0017-4ef3-adf8-1f4da66393a4
 answer_box(
@@ -193,9 +208,7 @@ We can relate the approximate width to coupling using the Breit-Wigner expressio
 Hence
 
 ```math
-\begin{align}
-\Gamma_0 = \frac{g_1^2 \rho_1 (m_0) + g_2^2 \rho_2(m_0)+g_3^2 \rho_3(m_0)}{m_0}\\
-\end{align}
+\Gamma_0 = \frac{g_1^2 \rho_1 (m_0) + g_2^2 \rho_2(m_0)+g_3^2 \rho_3(m_0)}{m_0}
 ```
 """
 
@@ -210,9 +223,9 @@ begin
 end
 
 # ╔═╡ cf9bf7ac-905f-4112-a7f4-36c536d33918
-question_box(md"""
+Markdown.MD(Markdown.Admonition("danger", "Question", [md"""
 **E1.Q3:** Let's assume that we know cross-section distribution and can measure FWHM of it. How is it possible to estimate K-matrix parameters $g_{i}$?
-""")
+"""]))
 
 # ╔═╡ 87fc0818-273b-4d0b-814a-058365ee07a0
 answer_box(
@@ -251,7 +264,8 @@ md"""
 
 The K-matrix for such case consists of two terms:
 
-$K =K^{(1)}+K^{(2)}
+```math
+K =K^{(1)}+K^{(2)}
 = \frac{1}{m_{(1)}^2-s}
 \begin{pmatrix}
 g_1^2 & g_1 g_2\\
@@ -261,7 +275,8 @@ g_2 g_1 & g_2^2
 \begin{pmatrix}
 h_1^2 & h_1 h_2\\
 h_2 h_1 & h_2^2
-\end{pmatrix}$
+\end{pmatrix}
+```
 """
 
 # ╔═╡ 74e06991-79a2-4711-8bc7-c8656249641f
@@ -270,39 +285,45 @@ md"""
 """
 
 # ╔═╡ c7e615fa-62aa-4de2-8ef4-2df8534b2c06
-question_box(md"""
+Markdown.MD(Markdown.Admonition("danger", "Question", [md"""
 **E2.Q1:** Let's start with setting off-diagonal parameters described coupling to zeros $g_{2}=h_{1}=0$. Then K-matrix would be What would be
 
-$K =
+```math
+K =
 \begin{pmatrix}
 \frac{g_1^2}{m_{(1)}^2-s} & 0\\
 0 & \frac{h_2^2}{m_{(2)}^2-s}
-\end{pmatrix}$
+\end{pmatrix}
+```
 
 How will the T-matrix look like?
-""")
+"""]))
 
 # ╔═╡ a223cbff-88b0-4a28-af53-c139e7b9108a
-tip(md"For single resonance:
+Markdown.MD(Markdown.Admonition("warning", "Tip", [md"For single resonance:
 
-$T =
+```math
+T =
 \frac{1}{m_{(1)}^2-s-ig_1^2\rho_1-ig_2^2\rho_2}
 \begin{pmatrix}
 g_1^2 & g_1g_2\\
 g_2g_1 & g_2^2
-\end{pmatrix}$
+\end{pmatrix}
+```
 
-")
+"]))
 
 # ╔═╡ 9d9a89ed-76f3-4e76-a3cc-0d33c747fbb5
 answer_box(md"""
 In that case, the T-matrix would be simply:
 
-$T =
+```math
+T =
 \begin{pmatrix}
 \frac{g_1^2}{m_{(1)}^2-s-ig_1^2\rho_1} & 0\\
 0 & \frac{h_2^2}{m_{(2)}^2-s-ih_2^2\rho_2}
-\end{pmatrix}$
+\end{pmatrix}
+```
 """)
 
 # ╔═╡ 729c86ab-cf81-48bf-82be-b89cf28eaee6
@@ -344,12 +365,13 @@ md"""
 """
 
 # ╔═╡ a7a68629-bf6f-435e-9a97-de9a02a31160
-question_box(md"""
+Markdown.MD(Markdown.Admonition("danger", "Question", [md"""
 **E2.Q2:** Let's find the first expansion term to reflect on how a weakly coupled resonances show up in the second channel. For that put $g_2=\epsilon$, $h_1 = 0$.
 
 Then,
 
-$K^{(1)} = \frac{1}{m_{(1)}^2-s}
+```math
+K^{(1)} = \frac{1}{m_{(1)}^2-s}
 \begin{pmatrix}
 g_1^2 & g_1 \epsilon\\
 \epsilon g_1 & \epsilon^2
@@ -358,20 +380,23 @@ g_1^2 & g_1 \epsilon\\
 \begin{pmatrix}
 g_1^2 & g_1 \epsilon\\
 \epsilon g_1 & 0
-\end{pmatrix}$
+\end{pmatrix}
+```
 
 In this case the T-matrix will become:
-""")
+"""]))
 
 # ╔═╡ a1558b96-576f-4661-b357-c9f036c0167d
 answer_box(md"""
 The T-matrix in that case would be:
 
-$T \approx
+```math
+T \approx
 \begin{pmatrix}
 \frac{g_1^2}{m_{(1)}^2-s-ig_1^2\rho_1} & \frac{g_1\epsilon}{m_{(1)}^2-s-ig_1^2\rho_1}\\
 \frac{\epsilon g_1}{m_{(1)}^2-s-ig_1^2\rho_1} & \frac{h_2^2}{m_{(2)}^2-s-ih_2^2\rho_2}
-\end{pmatrix}$
+\end{pmatrix}
+```
 
 One can notice that:
 
@@ -391,17 +416,19 @@ md"""
 """
 
 # ╔═╡ 8b53b1cc-520b-48e4-b2b1-6ad6ebe443e2
-question_box(md"""
+Markdown.MD(Markdown.Admonition("danger", "Question", [md"""
 **E2.Q3:** Let's , finally, put $g_2=h_1=\epsilon$.
 
 What will we see for the off-diagonal terms of T-matrix?
 
-""")
+"""]))
 
 # ╔═╡ 1e7ebcaf-dd83-40fb-9bd8-2e48a1911bfa
 answer_box(md"""
 
-$T_{12}=T_{21}=\frac{g_1\epsilon}{m_{(1)}^2-s-ig_1^2\rho_1}+\frac{h_2\epsilon}{m_{(2)}^2-s-ih_2^2\rho_2}=(BW_{g_{1}}+BW_{h_{2}})\epsilon$
+```math
+T_{12}=T_{21}=\frac{g_1\epsilon}{m_{(1)}^2-s-ig_1^2\rho_1}+\frac{h_2\epsilon}{m_{(2)}^2-s-ih_2^2\rho_2}=(BW_{g_{1}}+BW_{h_{2}})\epsilon
+```
 
 """)
 
@@ -435,10 +462,14 @@ end;
 md"""
 For this case K-matrix will become just a function of s:
 
-$K = \frac{g^2}{m_{(1)}^2-s}+
-\frac{h^2}{m_{(2)}^2-s}$
+```math
+K = \frac{g^2}{m_{(1)}^2-s}+
+\frac{h^2}{m_{(2)}^2-s}
+```
 
-$T = [1-iK\rho ]^{-1} K$
+```math
+T = [1-iK\rho ]^{-1} K
+```
 
 If K is zero for $s=s_\text{z}$, T is zero.
 """
@@ -455,12 +486,12 @@ let
 end
 
 # ╔═╡ edef417d-b0e4-4cad-bf63-462a8d7e861f
-question_box(md"""
-**E3.Q1:** Why does it have 0?
-""")
+Markdown.MD(Markdown.Admonition("danger", "Question", [md"""
+**E3.Q1:** Why does it have zero between the poles?
+"""]))
 
 # ╔═╡ 53ad2e4e-0268-4488-9891-815922d8a8db
-aside(tip(md"For explanation let's have a look at K-matrix in these case."))
+aside(Markdown.MD(Markdown.Admonition("warning", "Tip", [md"For explanation let's have a look at K-matrix in these case."])))
 
 # ╔═╡ 8556c8f4-89e4-4544-ad73-4da8b43a7051
 p = let
@@ -486,11 +517,13 @@ md"""
 
 The difference between production and scattering is that now one replace K-matrix with vector:
 
-$A = [1-iK\rho]^{-1}
+```math
+A = [1-iK\rho]^{-1}
 \begin{pmatrix}
 \frac{\alpha_1 g}{m_{(1)}^2-s}\\
 \frac{\alpha_2 h}{m_{(2)}^2-s}
-\end{pmatrix}$
+\end{pmatrix}
+```
 
 Where $a_1$ and $a_2$ are production factors which might be complex.
 """
@@ -529,10 +562,10 @@ let
 end
 
 # ╔═╡ cf9733b3-bdc9-4e58-a7f3-87845eb907da
-question_box(md"""
+Markdown.MD(Markdown.Admonition("danger", "Question", [md"""
 **E3.Q2:** What can the complexity of a production factor lead to?
 How the plot above will change?
-""")
+"""]))
 
 # ╔═╡ 3019d77e-a41e-4fa5-a0bf-b91d3d72e96f
 md"""
@@ -2180,7 +2213,7 @@ uuid = "23338594-aafe-5451-b93e-139f81909106"
 # ╟─6d5acd0c-dbcf-4d0a-a94c-76ac59006fc8
 # ╟─fe35af83-4910-48e4-b9de-5b8a1f85fb72
 # ╟─3fde6651-a704-4757-b282-3a7cfcd36f6e
-# ╠═0ff7e560-37ca-4016-bc01-741322402679
+# ╟─0ff7e560-37ca-4016-bc01-741322402679
 # ╟─3e76dfec-e83c-46df-8838-b299a7aaa5e3
 # ╟─59ceb096-1cc0-4c69-b56f-476710dd698e
 # ╟─1410b82a-0017-4ef3-adf8-1f4da66393a4
@@ -2207,7 +2240,7 @@ uuid = "23338594-aafe-5451-b93e-139f81909106"
 # ╟─0e899f67-adec-4837-9993-c9fe22f788d1
 # ╟─27f0ae17-b61c-49c5-b4fc-6de5d2ddda94
 # ╠═babfbc1f-7beb-44d1-b3c8-75309e8b817c
-# ╠═8b92df7f-d97b-43fa-8ac3-fed8ee974f5f
+# ╟─8b92df7f-d97b-43fa-8ac3-fed8ee974f5f
 # ╟─7b4fa73c-1075-4271-8d2f-1668d98904ab
 # ╟─edef417d-b0e4-4cad-bf63-462a8d7e861f
 # ╟─53ad2e4e-0268-4488-9891-815922d8a8db

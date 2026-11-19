@@ -1,16 +1,18 @@
-# cspell:ignore kmatrix
+# cspell:ignore Ilya kmatrix Misha Segal
 
 import shutil
+from glob import glob
 from pathlib import Path
 
 
-def copy_julia_html_page() -> list[str]:
-    html_page = Path("K-matrix.html")
-    if html_page.exists():
-        static_path = Path("_static")
+def copy_julia_html_page() -> None:
+    static_path = Path("_static")
+    julia_notebooks = glob("*.jl")
+    for notebook in julia_notebooks:
+        html_page = Path(notebook).with_suffix(".html")
+        if not html_page.exists():
+            continue
         shutil.copy(html_page, static_path / html_page)
-        return [str(static_path / html_page)]
-    return []
 
 
 BRANCH = "main"
@@ -18,6 +20,7 @@ ORGANIZATION = "RUB-EP1"
 REPO_NAME = "kmatrix-day-2024"
 copy_julia_html_page()
 
+author = "Misha Mikhasenko, Lena Pöpping, Ilya Segal, Remco de Boer"
 codeautolink_concat_default = True
 exclude_patterns = [
     "**.ipynb_checkpoints",
@@ -37,7 +40,6 @@ html_favicon = "_static/favicon.ico"
 html_js_files = [
     "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js",
 ]
-html_logo = "https://github.com/mmikhasenko/kmatrix-day-2024/assets/29308176/1a9db3dc-9398-4c7f-95f2-e46e68809a4d"
 html_static_path = ["_static"]
 html_theme = "sphinx_book_theme"
 html_theme_options = {
@@ -67,12 +69,6 @@ html_theme_options = {
             "name": "Ruhr University Bochum",
             "type": "url",
             "url": "https://www.ruhr-uni-bochum.de",
-        },
-        {
-            "icon": "https://mmikhasenko.github.io/agmikhasenko/logo/ep1mikhasenko_logo_small.svg",
-            "name": "Ruhr University Bochum",
-            "type": "url",
-            "url": "https://mmikhasenko.github.io/agmikhasenko",
         },
         {
             "icon": "https://compwa.github.io/_static/favicon.ico",
@@ -107,6 +103,9 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3.12", None),
     "sympy": ("https://docs.sympy.org/latest", None),
 }
+# Plotly's notebook renderer embeds this MathJax build in each figure; a different
+# version loaded by Sphinx conflicts with it and leaves the equations unrendered.
+mathjax_path = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"
 myst_colon_fence_exact_match = True
 myst_enable_extensions = [
     "alert",

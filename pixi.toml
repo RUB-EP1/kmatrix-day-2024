@@ -84,7 +84,7 @@ description = "Serve the documentation with live reload on changes"
 cmd = """
 julia \
     --project=.. \
-    -e 'using PlutoSliderServer; PlutoSliderServer.export_notebook("K-matrix.jl")'
+    -e 'using PlutoSliderServer; PlutoSliderServer.export_directory()'
 """
 cwd = "docs"
 depends-on = ["instantiate-julia"]

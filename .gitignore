@@ -6,6 +6,7 @@ _build/
 .virtual_documents/
 *.egg-info/
 *.html
+pluto_export.json
 
 # Agent tooling
 .agents/

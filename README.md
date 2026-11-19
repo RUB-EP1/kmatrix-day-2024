@@ -32,7 +32,7 @@ Supplementary materials, including lecture notes and presentations, can be found
 
 1. **Modelling conventions**: [PDG review on resonances](https://pdg.lbl.gov/2023/reviews/rpp2023-rev-resonances.pdf)
 2. **Second talk**: [Analytic continuation within K-matrix formalism](additional_materials/Analytic_continuation_ComPWA.pdf) (Lena Zeynep Pöpping)
-3.
+3. [$K$-matrix parametrizations for $\pi\pi$ scattering](./docs/pipi-s-wave.jl) (Pluto notebook)
 
 ## Installation Instructions
 
