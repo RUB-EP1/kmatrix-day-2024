@@ -1,6 +1,9 @@
 ### A Pluto.jl notebook ###
 # v1.1.0
 
+#> [frontmatter]
+#> title = "Practical K-Matrix Applications"
+
 using Markdown
 using InteractiveUtils
 

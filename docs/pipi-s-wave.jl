@@ -1,6 +1,9 @@
 ### A Pluto.jl notebook ###
 # v0.19.40
 
+#> [frontmatter]
+#> title = "Coupled-channel K-matrix for the ππ S-wave"
+
 using Markdown
 using InteractiveUtils
 
